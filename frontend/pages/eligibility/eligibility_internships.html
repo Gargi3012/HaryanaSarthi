@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internship Eligibility - HaryanaSarthi</title>
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="../../assets/logo.jpeg" alt="HaryanaSarthi" class="nav-logo" />
+      <span class="nav-title">HaryanaSarthi</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="../../home.html">Home</a>
+      <a href="../../opportunities.html" class="active-link">Opportunities</a>
+      <a href="../../dashboard.html">Dashboard</a>
+      <a href="../../about.html">About Us</a>
+      <a href="../../contact.html">Contact Info</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="search-wrap">
+        <span>🔍</span>
+        <input type="text" placeholder="Search opportunities..." />
+      </div>
+      <a href="../../auth.html" class="auth-link">Login / Sign up</a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="onboarding-card">
+      <h2>Government Internship Eligibility</h2>
+      <p>Check internships based on sector, mode, duration, age and percentage.</p>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Age</label>
+          <input id="readonlyAge" readonly />
+        </div>
+
+        <div class="form-group">
+          <label>Your Percentage</label>
+          <input id="internshipPercentage" type="number" placeholder="Enter your percentage" />
+        </div>
+      </div>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Preferred Sector</label>
+          <select id="internshipSector">
+            <option value="">Select sector</option>
+            <option value="finance & accounts">Finance & Accounts</option>
+            <option value="education">Education</option>
+            <option value="energy">Energy</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="public administration">Public Administration</option>
+            <option value="it & digital">IT & Digital</option>
+            <option value="legal & judiciary">Legal & Judiciary</option>
+            <option value="social welfare">Social Welfare</option>
+            <option value="agriculture">Agriculture</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Internship Mode</label>
+          <select id="internshipMode">
+            <option value="">Select mode</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="on-site">On-site</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Preferred Duration</label>
+          <input id="internshipDuration" type="number" placeholder="Enter duration" />
+        </div>
+
+        <div class="form-group">
+          <label>&nbsp;</label>
+          <button id="checkInternshipEligibility" class="btn btn-primary full-width-btn">
+            Check Eligibility
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Switcher -->
+      <div class="quick-switch-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+        <label style="font-size: 14px; color: var(--text-muted); display: block; margin-bottom: 8px;">Want to switch opportunity?</label>
+        <select class="opportunity-switcher" onchange="if(this.value) window.location.href=this.value;" style="width: 100%; max-width: 300px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none;">
+          <option value="">Select Opportunity...</option>
+          <option value="eligibility_colleges.html">Colleges</option>
+          <option value="eligibility_scholarships.html">Scholarships</option>
+          <option value="eligibility_jobs.html">Jobs</option>
+          <option value="eligibility_exams.html">Exams</option>
+          <option value="eligibility_internships.html" selected>Internships</option>
+          <option value="eligibility_schemes.html">Schemes</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="section-head">
+      <h2>Eligible Internships</h2>
+      <p>Based on your selected preferences.</p>
+    </section>
+
+    <section id="internshipResults">
+      <p class="muted">Your internship results will appear here.</p>
+    </section>
+  </main>
+
+  <script src="../../js/script.js"></script>
+</body>
+</html>

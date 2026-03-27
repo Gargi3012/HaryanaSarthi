@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics Dashboard - HaryanaSarthi</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="assets/logo.jpeg" alt="HaryanaSarthi" class="nav-logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiMxNmEzNGEiIHJ4PSI4Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjZmZmIiBkeT0iLjM1ZW0iIHRleHQtYW5jaG9yPSJtaWRkbGUiPkg8L3RleHQ+PC9zdmc+';"/>
+      <span class="nav-title">HaryanaSarthi</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="home.html">Home</a>
+      <a href="opportunities.html">Opportunities</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Info</a>
+      <a href="dashboard.html" class="active-link">Dashboard</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="search-wrap">
+        <span>🔍</span>
+        <input type="text" placeholder="Search opportunities..." />
+      </div>
+      <a href="auth.html" class="auth-link">Login / Sign up</a>
+    </div>
+  </header>
+
+  <main class="page-shell dashboard-page">
+    <section class="section-head">
+      <h2>Platform Insights & Analytics</h2>
+      <p>Providing transparency and data-driven understanding for citizens and government.</p>
+    </section>
+
+    <!-- 1. Overview (Top Metrics) -->
+    <section class="dashboard-section">
+      <h3 class="dash-sec-title">1. Overview</h3>
+      <div class="overview-grid">
+        <div class="metric-card">
+          <h4>Total Opportunities</h4>
+          <p id="metric-opps" class="metric-value">0</p>
+        </div>
+        <div class="metric-card">
+          <h4>Total Users (Simulated)</h4>
+          <p id="metric-users" class="metric-value">0</p>
+        </div>
+        <div class="metric-card">
+          <h4>Total Applications</h4>
+          <p id="metric-apps" class="metric-value">0</p>
+        </div>
+        <div class="metric-card">
+          <h4>Eligibility Success Rate</h4>
+          <p id="metric-rate" class="metric-value">0%</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="dashboard-grid-2">
+      <!-- 2. Opportunities Distribution -->
+      <section class="dashboard-section chart-card">
+        <h3 class="dash-sec-title">2. Opportunities Distribution</h3>
+        <p class="dash-sec-desc">Breakdown across categories</p>
+        <div class="chart-container">
+          <canvas id="oppsDistChart"></canvas>
+        </div>
+      </section>
+
+      <!-- 4. Eligibility Insights -->
+      <section class="dashboard-section chart-card">
+        <h3 class="dash-sec-title">4. Eligibility Insights</h3>
+        <p class="dash-sec-desc">User distribution by eligibility level</p>
+        <div class="chart-container">
+          <canvas id="eligibilityChart"></canvas>
+        </div>
+      </section>
+    </div>
+
+    <!-- 3. Popular vs Less Explored Opportunities -->
+    <section class="dashboard-section chart-card full-width">
+      <h3 class="dash-sec-title">3. Popular vs Less Explored Opportunities</h3>
+      <p class="dash-sec-desc">Engagement levels for top 5 and bottom 5 opportunities</p>
+      <div class="chart-container large-chart">
+        <canvas id="engagementChart"></canvas>
+      </div>
+    </section>
+
+    <div class="dashboard-grid-2">
+      <!-- 5. User Segmentation -->
+      <section class="dashboard-section chart-card">
+        <h3 class="dash-sec-title">5. User Segmentation</h3>
+        <p class="dash-sec-desc">User distribution by category and income</p>
+        <div class="chart-container">
+          <canvas id="userSegmentChart"></canvas>
+        </div>
+      </section>
+
+      <!-- 6. Region Insights -->
+      <section class="dashboard-section chart-card">
+        <h3 class="dash-sec-title">6. Region Insights</h3>
+        <p class="dash-sec-desc">Demand across top regions in Haryana</p>
+        <div class="chart-container">
+          <canvas id="regionChart"></canvas>
+        </div>
+      </section>
+    </div>
+
+    <div class="dashboard-grid-2">
+      <!-- 7. Sector Insights -->
+      <section class="dashboard-section chart-card">
+        <h3 class="dash-sec-title">7. Sector Insights</h3>
+        <p class="dash-sec-desc">Popularity of different sectors</p>
+        <div class="chart-container">
+          <canvas id="sectorChart"></canvas>
+        </div>
+      </section>
+
+      <!-- 8. Government Insights -->
+      <section class="dashboard-section gov-insights info-card">
+        <h3 class="dash-sec-title">8. Government Focus Areas</h3>
+        <ul class="feature-list gov-list">
+          <li><strong>Low Awareness Schemes:</strong> Post Matric Scholarship for SC, Mukhyamantri Parivar Samriddhi Yojana</li>
+          <li><strong>Underrepresented Categories:</strong> Women in Technical Internships, PwD Category Users</li>
+          <li><strong>Regions Needing Focus:</strong> Nuh, Fatehabad, Sirsa (Lowest Engagement)</li>
+          <li><strong>Action Item:</strong> Run targeted awareness campaigns in rural western Haryana.</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- 9. Final Insights Panel -->
+    <section class="dashboard-section final-insights insight-panel">
+      <h3 class="dash-sec-title">9. Key Observations & Recommendations</h3>
+      <div class="insight-content">
+        <p><strong>Observations:</strong> Data indicates that scholarships drive the highest engagement among students (45% of total traffic), whereas government schemes have a relatively low exploration rate.</p>
+        <p><strong>Recommendations:</strong></p>
+        <ul class="feature-list">
+          <li>Improve discoverability of State Schemes by linking them directly to student profiles based on income parameters.</li>
+          <li>Enhance mobile-first outreach in Nuh and Fatehabad where current platform penetration is below 5%.</li>
+          <li>Promote agricultural initiatives which currently sit at the bottom of the "Explored Opportunities" list.</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

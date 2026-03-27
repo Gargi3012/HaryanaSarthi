@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onboarding 2 - HaryanaSarthi</title>
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+  <main class="center-page">
+    <section class="onboarding-card">
+      <div class="step-indicator">Step 2 of 4</div>
+      <h2>What are you looking for?</h2>
+      <p>Select the types of opportunities you want to explore.</p>
+
+      <div class="option-grid multi-select" data-key="looking_for" id="dynamicOptionsGrid">
+        <!-- Javascript will inject the correct options here based on User Type -->
+      </div>
+
+      <div class="nav-row">
+        <a class="btn btn-outline" href="onboarding1.html">Back</a>
+        <div class="nav-right-group">
+          <button type="button" class="btn btn-muted skip-btn" data-step="2">Skip for now</button>
+          <button type="button" class="btn btn-primary next-btn" data-step="2" data-next="onboarding3.html" disabled>Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - HaryanaSarthi</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="assets/logo.jpeg" alt="HaryanaSarthi" class="nav-logo" />
+      <span class="nav-title">HaryanaSarthi</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="home.html" class="active-link">Home</a>
+      <a href="opportunities.html">Opportunities</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Info</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="search-wrap">
+        <span>🔍</span>
+        <input type="text" placeholder="Search opportunities..." />
+      </div>
+      <a href="auth.html" class="auth-link">Login / Sign up</a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="home-hero">
+      <div class="hero-box">
+        <div class="ai-badge">AI Powered</div>
+        <h1>HaryanaSarthi</h1>
+        <p class="hero-tagline">
+          Your smart guide to discover government schemes, scholarships, jobs, exams,
+          internships and colleges based on your profile and eligibility.
+        </p>
+
+        <div class="hero-actions">
+          <a href="opportunities.html" class="btn btn-primary">Explore Opportunities</a>
+          <button id="aiEligibilityBtn" class="btn btn-outline" type="button">
+            Check Your Eligibility with AI
+          </button>
+        </div>
+      </div>
+
+      <div class="map-card interactive-map">
+        <h3>Explore Haryana</h3>
+        <p>Hover over a district to view localized opportunities.</p>
+        <div class="svg-container">
+          <!-- A simplified SVG path structure representation of Haryana districts -->
+          <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" class="haryana-map">
+            <g class="districts">
+              <!-- Approximated simple polygon paths representing districts for visual effect -->
+              <path id="Panchkula" title="Panchkula" d="M 330 30 L 360 20 L 380 50 L 340 70 Z" />
+              <path id="Ambala" title="Ambala" d="M 340 70 L 380 50 L 410 90 L 370 120 Z" />
+              <path id="Yamunanagar" title="Yamunanagar" d="M 380 50 L 450 60 L 460 110 L 410 90 Z" />
+              <path id="Kurukshetra" title="Kurukshetra" d="M 330 110 L 370 120 L 380 150 L 320 160 Z" />
+              <path id="Kaithal" title="Kaithal" d="M 280 140 L 330 110 L 320 160 L 290 200 Z" />
+              <path id="Karnal" title="Karnal" d="M 370 120 L 420 120 L 440 180 L 360 180 Z" />
+              <path id="Panipat" title="Panipat" d="M 360 180 L 440 180 L 430 220 L 350 210 Z" />
+              <path id="Sonipat" title="Sonipat" d="M 350 210 L 430 220 L 430 290 L 340 270 Z" />
+              <path id="Jind" title="Jind" d="M 290 200 L 320 160 L 360 180 L 340 270 L 280 250 Z" />
+              <path id="Fatehabad" title="Fatehabad" d="M 210 180 L 280 140 L 290 200 L 220 230 Z" />
+              <path id="Sirsa" title="Sirsa" d="M 100 130 L 210 180 L 220 230 L 130 250 Z" />
+              <path id="Hisar" title="Hisar" d="M 220 230 L 290 200 L 280 250 L 290 320 L 210 290 Z" />
+              <path id="Rohtak" title="Rohtak" d="M 280 250 L 340 270 L 330 320 L 290 320 Z" />
+              <path id="Jhajjar" title="Jhajjar" d="M 290 320 L 330 320 L 340 370 L 280 390 Z" />
+              <path id="Rewari" title="Rewari" d="M 230 400 L 280 390 L 300 450 L 220 440 Z" />
+              <path id="Mahendragarh" title="Mahendragarh" d="M 170 360 L 230 400 L 220 440 L 160 500 Z" />
+              <path id="Bhiwani" title="Bhiwani" d="M 210 290 L 290 320 L 280 390 L 230 400 L 170 360 Z" />
+              <path id="CharkhiDadri" title="Charkhi Dadri" d="M 210 290 L 230 400 L 180 350 Z" />
+              <path id="Gurugram" title="Gurugram" d="M 340 370 L 380 350 L 400 400 L 350 420 Z" />
+              <path id="Faridabad" title="Faridabad" d="M 380 350 L 430 340 L 440 400 L 400 400 Z" />
+              <path id="Palwal" title="Palwal" d="M 400 400 L 440 400 L 460 480 L 390 450 Z" />
+              <path id="Nuh" title="Nuh" d="M 300 450 L 350 420 L 390 450 L 380 540 L 310 520 Z" />
+            </g>
+            <g class="district-labels">
+              <text x="350" y="45" class="map-label" data-id="Panchkula">Panchkula</text>
+              <text x="375" y="85" class="map-label" data-id="Ambala">Ambala</text>
+              <text x="425" y="80" class="map-label" data-id="Yamunanagar">Yamunanagar</text>
+              <text x="350" y="140" class="map-label" data-id="Kurukshetra">Kurukshetra</text>
+              <text x="305" y="155" class="map-label" data-id="Kaithal">Kaithal</text>
+              <text x="395" y="155" class="map-label" data-id="Karnal">Karnal</text>
+              <text x="400" y="200" class="map-label" data-id="Panipat">Panipat</text>
+              <text x="395" y="250" class="map-label" data-id="Sonipat">Sonipat</text>
+              <text x="320" y="215" class="map-label" data-id="Jind">Jind</text>
+              <text x="250" y="195" class="map-label" data-id="Fatehabad">Fatehabad</text>
+              <text x="165" y="200" class="map-label" data-id="Sirsa">Sirsa</text>
+              <text x="255" y="265" class="map-label" data-id="Hisar">Hisar</text>
+              <text x="310" y="290" class="map-label" data-id="Rohtak">Rohtak</text>
+              <text x="315" y="355" class="map-label" data-id="Jhajjar">Jhajjar</text>
+              <text x="260" y="425" class="map-label" data-id="Rewari">Rewari</text>
+              <text x="195" y="435" class="map-label" data-id="Mahendragarh">Mahendragarh</text>
+              <text x="240" y="355" class="map-label" data-id="Bhiwani">Bhiwani</text>
+              <text x="210" y="340" class="map-label" data-id="CharkhiDadri" style="font-size:8px;">Charkhi Dadri</text>
+              <text x="365" y="390" class="map-label" data-id="Gurugram">Gurugram</text>
+              <text x="415" y="375" class="map-label" data-id="Faridabad">Faridabad</text>
+              <text x="425" y="440" class="map-label" data-id="Palwal">Palwal</text>
+              <text x="355" y="480" class="map-label" data-id="Nuh">Nuh</text>
+            </g>
+          </svg>
+        </div>
+        <div id="districtTooltip" class="district-tooltip hidden"></div>
+      </div>
+    </section>
+
+    <section class="section-head">
+      <h2>Recommended Opportunities</h2>
+      <p>Based on your onboarding answers and selected interests.</p>
+    </section>
+
+    <section id="recommendedResults">
+      <p class="muted">Loading recommendations...</p>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Eligibility - HaryanaSarthi</title>
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="../../assets/logo.jpeg" alt="HaryanaSarthi" class="nav-logo" />
+      <span class="nav-title">HaryanaSarthi</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="../../home.html">Home</a>
+      <a href="../../opportunities.html" class="active-link">Opportunities</a>
+      <a href="../../dashboard.html">Dashboard</a>
+      <a href="../../about.html">About Us</a>
+      <a href="../../contact.html">Contact Info</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="search-wrap">
+        <span>🔍</span>
+        <input type="text" placeholder="Search opportunities..." />
+      </div>
+      <a href="../../auth.html" class="auth-link">Login / Sign up</a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="onboarding-card">
+      <h2>Government Exam Eligibility</h2>
+      <p>Check exams based on education, state and category.</p>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Percentage</label>
+          <input id="examPercentage" type="number" />
+        </div>
+
+        <div class="form-group">
+          <label>Education Required</label>
+          <select id="educationRequired">
+            <option>Graduate</option>
+            <option>Post Graduate</option>
+            <option>10th Pass</option>
+            <option>12th Pass</option>
+            <option>Engineering Degree</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>State</label>
+          <select id="examState">
+            <option>Haryana</option>
+            <option>All India</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select id="examCategory">
+            <option>General</option>
+            <option>SC</option>
+            <option>OBC</option>
+            <option>EWS</option>
+            <option>ST</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="checkExamEligibility" class="btn btn-primary">Check Eligibility</button>
+
+      <!-- Quick Switcher -->
+      <div class="quick-switch-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+        <label style="font-size: 14px; color: var(--text-muted); display: block; margin-bottom: 8px;">Want to switch opportunity?</label>
+        <select class="opportunity-switcher" onchange="if(this.value) window.location.href=this.value;" style="width: 100%; max-width: 300px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none;">
+          <option value="">Select Opportunity...</option>
+          <option value="eligibility_colleges.html">Colleges</option>
+          <option value="eligibility_scholarships.html">Scholarships</option>
+          <option value="eligibility_jobs.html">Jobs</option>
+          <option value="eligibility_exams.html" selected>Exams</option>
+          <option value="eligibility_internships.html">Internships</option>
+          <option value="eligibility_schemes.html">Schemes</option>
+        </select>
+      </div>
+
+    <section id="examResults"></section>
+  </main>
+
+  <script src="../../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+scheme_id,scheme_name,ministry,max_age,max_income_lakhs,category,gender,states,benefits,apply_link,no_income_limit,no_age_limit
+1,PM Jan Dhan Yojana,Finance,100,999,All,all,all india,Zero balance+₹2L insurance,pmjdy.gov.in,TRUE,FALSE
+2,PM Ujjwala 2.0,Petroleum,65,0.8,BPL,female,all india,Free LPG connection,pmuy.gov.in,FALSE,FALSE
+3,PM Kisan Samman Nidhi,Agriculture,65,0,Farmer,all,all india,₹6000/year,pmkisan.gov.in,FALSE,FALSE
+4,PM SVANidhi,MSME,65,5,Street vendor,all,all india,₹10K-50K loan,pmsvanidhi.mohua.gov.in,FALSE,FALSE
+5,Mudra Yojana,MSME,60,20,Micro business,all,all india,₹50K-20L loans,mudra.org.in,FALSE,FALSE
+6,PM Awas Yojana Urban,Housing,65,4,BPL,all,all india,₹2.67L subsidy,pmay-urban.gov.in,FALSE,FALSE
+7,Ayushman Bharat PM-JAY,Health,120,5,BPL,all,all india,₹5L insurance,pmjay.gov.in,FALSE,TRUE
+8,PM Garib Kalyan Anna Yojana,Food,120,0,BPL,all,all india,Free 5kg ration,dfpd.gov.in,FALSE,TRUE
+9,Atal Pension Yojana,PFRDA,70,5,Unorganized,all,all india,₹1000-5000 pension,apns.in,FALSE,FALSE
+10,KVP National Savings,Finance,120,0,All,all,all india,8.4% interest,nsiindia.gov.in,FALSE,TRUE
+11,MGNREGA,Rural Development,60,0,Rural labour,all,all india,100 days work,nrega.nic.in,FALSE,FALSE
+12,Khelo India,Sports,25,0,Youth,all,all india,Sports infra,kheloindia.gov.in,FALSE,FALSE
+13,Startup India Seed Fund,MSME,40,0,Startup,all,all india,₹20-50L funding,startupindia.gov.in,FALSE,FALSE
+14,PMEGP,MSME,35,2.5,Unemployed,all,all india,35L project,kviconline.gov.in,FALSE,FALSE
+15,PM Vishwakarma,MSME,50,3,Artisan,all,all india,₹3L credit,pmvishwakarma.gov.in,FALSE,FALSE
+16,Old Age Samman Allowance Haryana,Social Justice,100,2,Senior,all,haryana,₹3000/month,sewa.haryana.gov.in,FALSE,FALSE
+17,Widow Pension Haryana,Social Justice,55,2,Widow,female,haryana,₹2000/month,socialjusticehry.gov.in,FALSE,FALSE
+18,Ladli Scheme Haryana,WCD,10,0,Girl child,female,haryana,₹2.1L maturity,wcdhry.gov.in,FALSE,FALSE
+19,Aashirwad Scheme Haryana,Social Justice,35,5,SC marriage,all,haryana,₹71K grant,socialjusticehry.gov.in,FALSE,FALSE
+20,Parivar Pehchan Patra Haryana,Revenue,120,0,Family,all,haryana,DBT access,meripehchan.gov.in,FALSE,TRUE
+21,PM Matru Vandana Yojana,WCD,49,8,Pregnant women,female,all india,₹5000 maternity,pmmvy.wcd.gov.in,FALSE,FALSE
+22,PM Suraksha Bima Yojana,Finance,70,2,All,all,all india,₹2L accident cover,pmsby.gov.in,FALSE,FALSE
+23,Sukanya Samriddhi Yojana,Finance,10,1.5,Girl child,female,all india,8.2% interest,sukanya.gov.in,FALSE,FALSE
+24,National Scholarship Portal,Education,30,4,Student,all,all india,Merit scholarships,scholarships.gov.in,FALSE,FALSE
+25,PM Kaushal Vikas Yojana,Skill Dev,35,0,Youth,all,all india,Skill certification,pmkvyofficial.org,FALSE,FALSE
+26,Lakhpati Didi,WCD,55,2,SHG women,female,all india,₹1L income target,aajeevika.gov.in,FALSE,FALSE
+27,PM Suryodaya Yojana,Renewable Energy,65,5,Household,all,all india,Rooftop solar,pmsuryaghar.gov.in,FALSE,FALSE
+28,Jal Jeevan Mission,Water,120,0,Rural household,all,rural india,Tap water,jjm.gov.in,FALSE,TRUE
+29,NRLM Rural Livelihood,MGNREGA,60,0,Rural women,female,rural india,SHG formation,aajeevika.gov.in,FALSE,FALSE
+30,PM Fasal Bima Yojana,Agriculture,65,0,Farmer,all,all india,Crop insurance,pmfby.gov.in,FALSE,FALSE
+31,PM Gram Sadak Yojana,Rural Roads,120,0,Rural connectivity,all,rural india,Village roads,pmgsy.nic.in,FALSE,TRUE
+32,SVAMITVA Scheme,Housing,120,0,Rural property,all,rural india,Property cards,swamitva.gov.in,FALSE,TRUE
+33,SAUBHAGYA Scheme,Electricity,120,0,Rural household,all,rural india,Free connection,rec.gov.in,FALSE,TRUE
+34,PM Poshan Shakti Nirbhar Abhiyaan,Nutrition,6,0,Children,female,rural india,Nutrition,poshanshakti.gov.in,FALSE,FALSE
+35,UDAN Regional Connectivity,Civil Aviation,120,0,Passengers,all,all india,Low cost flights,udaan.gov.in,FALSE,TRUE
+36,Bharatmala Pariyojana,Highways,120,0,Highway users,all,all india,New highways,bharatmala.gov.in,FALSE,TRUE
+37,Sagarmala Project,Shipping,120,0,Coastal economy,all,coastal states,Port development,sagarmala.gov.in,FALSE,TRUE
+38,NAM National Agriculture Market,Agriculture,65,0,Farmer,all,all india,Online mandi,nam.gov.in,FALSE,FALSE
+39,Soil Health Card,Agriculture,65,0,Farmer,all,all india,Soil testing,bhuhan.nic.in,FALSE,FALSE
+40,Blue Revolution,Fisheries,60,0,Fishermen,all,coastal states,Fish production,pmmsy.dof.gov.in,FALSE,FALSE
+41,PMMSY Pradhan Mantri Matsya Sampada,Agriculture,60,0,Fishermen,all,all india,Fisheries dev,pmmsy.dof.gov.in,FALSE,FALSE
+42,Swadesh Darshan,Tourism,120,0,Tourists,all,all india,Tourist circuits,tourism.gov.in,FALSE,TRUE
+43,PRASHAD Scheme,Tourism,120,0,Pilgrims,all,all india,Pilgrimage sites,prashad.gov.in,FALSE,TRUE
+44,PM SVANidhi Se Nai Pehchaan,MSME,65,5,Street vendor,all,all india,Vendor ID,pmsvanidhi.mohua.gov.in,FALSE,FALSE
+45,PM Street Vendor AtmaNirbhar Nidhi,MSME,65,5,Street vendor,all,all india,Working capital,pmsvanidhi.mohua.gov.in,FALSE,FALSE
+46,Rashtriya Krishi Vikas Yojana,Agriculture,65,0,Farmer,all,all india,Agri development,agricoop.nic.in,FALSE,FALSE
+47,PM Krishi Sinchai Yojana,Agriculture,65,0,Farmer,all,all india,Irrigation,pmksy.gov.in,FALSE,FALSE
+48,Namo Drone Didi,Agriculture,50,0,Women farmer,female,all india,Drone subsidy,pashudhan.gov.in,FALSE,FALSE
+49,PM Kisan Urja Suraksha evam Utthaan Mahabhiyan,Agriculture,65,0,Farmer,all,all india,Solar pump,pmkusum.gov.in,FALSE,FALSE
+50,PM Formalisation of Micro Food Processing,MSE,50,10,Micro enterprise,all,all india,Food processing,pmfme.mofpi.gov.in,FALSE,FALSE
+51,Majra Scheme Haryana,Rural Dev Haryana,120,1.8,BPL,all,haryana,₹10K/year aid,haryanarural.gov.in,FALSE,TRUE
+52,Sanjeevani Yojana Haryana,Health Haryana,120,1.8,BPL,all,haryana,Free treatment,sewa.haryana.gov.in,FALSE,TRUE
+53,Meri Fasal Mera Byora Haryana,Agriculture Haryana,65,0,Farmer,all,haryana,Crop registration,merifasal.kisanharyana.net,FALSE,FALSE
+54,Drone Didi Haryana,Agriculture Haryana,50,0,Women farmer,female,haryana,Drone subsidy,pashudhanharyana.gov.in,FALSE,FALSE
+55,Mukhyamantri Bhed Bakri Palak Yojana,Animal Husbandry Haryana,55,1.8,SC/BPL,all,haryana,Goat rearing,pashudhanharyana.gov.in,FALSE,FALSE
+56,Haryana Kaushal Rozgar Nigam,Labour Haryana,45,0,Youth,all,haryana,Job placement,hkrn.haryana.gov.in,FALSE,FALSE
+57,Haryana Solar Power Policy,Renewable Energy Haryana,65,0,Household,all,haryana,Solar subsidy,haredco.gov.in,FALSE,FALSE
+58,Deen Dayal Upadhyaya Antyodaya Haryana,Urban Dev Haryana,120,0,Urban poor,all,haryana,Skill training,haryana.gov.in,FALSE,TRUE
+59,Kanyadan Yojana Haryana,Social Justice Haryana,120,1.8,BPL,all,haryana,Marriage grant,socialjusticehry.gov.in,FALSE,TRUE
+60,Beti Bachao Beti Padhao Haryana,WCD Haryana,18,0,Girl child,female,haryana,Girl education,wcdhry.gov.in,FALSE,FALSE
+61,PMEGP Credit Linked Subsidy,MSME,40,10,Unemployed youth,all,all india,35L project subsidy,kviconline.gov.in/pmegp,FALSE,FALSE
+62,Stand Up India,Finance,50,0,Women/SCST entrepreneur,female,all india,₹10-100L loan,standupmitra.in,FALSE,FALSE
+63,PMMY Pradhan Mantri Mudra Yojana,MSME,65,20,Micro enterprise,all,all india,Shishu/Kishor/Tarun loans,mudra.org.in,FALSE,FALSE
+64,PMFME Food Processing,Food Processing,50,10,Micro FPO,all,all india,35% subsidy machinery,pmfme.mofpi.gov.in,FALSE,FALSE
+65,SFURTI Clusters,MSME,60,0,Artisan clusters,all,all india,₹8Cr cluster funding,sfurti.dcmsme.gov.in,FALSE,FALSE
+66,Credit Guarantee Fund MSME,Finance,65,999,MSME,all,all india,Collateral free loan,cgfmsme.in,TRUE,FALSE
+67,Technology Centre Systems,MSME,50,0,Technology upgrade,all,all india,Machinery subsidy,tcmsme.gov.in,FALSE,FALSE
+68,ASPIRE Business Incubation,Agriculture,40,0,Agri startup,all,all india,₹1Cr incubator funding,aspire-msme.gov.in,FALSE,FALSE
+69,Lean Manufacturing Competitiveness,MSME,60,0,SME clusters,all,all india,Lean tech subsidy,leanmsme.in,FALSE,FALSE
+70,Market Development Assistance,MSME,65,0,Exporter SME,all,all india,International trade fair,mda.dcmsme.gov.in,FALSE,FALSE
+71,National Apprenticeship Promotion,Skill Dev,35,0,Youth apprentice,all,all india,Stipend ₹7000-9000,apprenticeship.gov.in,FALSE,FALSE
+72,Credit Linked Capital Subsidy,MSME,60,0,Technology upgradation,all,all india,15% capital subsidy,clcss.dcmsme.gov.in,FALSE,FALSE
+73,International Cooperation Scheme,MSME,65,0,International partnership,all,all india,Foreign collaboration,ics.dcmsme.gov.in,FALSE,FALSE
+74,Procurement and Marketing Dev,MSME,60,0,SME marketing,all,all india,Marketing support,pmdsme.gov.in,FALSE,FALSE
+75,R&D and Competitiveness,MSME,50,0,Innovation SME,all,all india,R&D reimbursement,rdcsme.gov.in,FALSE,FALSE
+76,Mukhyamantri Yuva Nestham Telangana,Youth Adv,35,0,Youth entrepreneur,male,telangana,₹10L subsidy,telangana.gov.in,FALSE,FALSE
+77,PM SVANidhi 2.0,Urban Dev,65,10,Street vendor,all,all india,Working capital loan,pmsvanidhi.mohua.gov.in,FALSE,FALSE
+78,PMEGP Special Category,MSME,40,5,NE/Hilly areas,all,ne states,Higher subsidy,kviconline.gov.in,FALSE,FALSE
+79,Seed Money Scheme,MSME,35,0,First gen entrepreneur,all,all india,10L seed capital,seedscheme.msme.gov.in,FALSE,FALSE
+80,Micro Enterprise Acceleration,MSME,45,5,Women entrepreneur,female,all india,Business accelerator,meap.msme.gov.in,FALSE,FALSE
+81,National SC-ST Hub,MSME,60,0,SCST entrepreneur,all,all india,End-to-end support,scsthud.msme.gov.in,FALSE,FALSE
+82,PM Vishwakarma 2.0,MSME,55,5,Artisan upgrade,all,all india,Advanced toolkit,pmvishwakarma.gov.in,FALSE,FALSE
+83,Tool Room Modernisation,MSME,60,0,Tool manufacturing,all,all india,Modern machinery,toolroom.gov.in,FALSE,FALSE
+84,Design Innovation Centre,MSME,45,0,Product designer,all,all india,Design incubation,dic.msme.gov.in,FALSE,FALSE
+85,Common Facility Centre,MSME,60,0,SME clusters,all,all india,Shared facility,cfc.msme.gov.in,FALSE,FALSE
+86,Livelihood Business Incubator,Agriculture,40,0,Rural entrepreneur,all,rural india,Village incubator,lbi.nabard.org,FALSE,FALSE
+87,Agri Clinic Agri Business,NABARD,50,10,Agri entrepreneur,all,all india,Training+credit,agriclinic.nabard.org,FALSE,FALSE
+88,Farmer Producer Organisation,NABARD,65,0,Farmer group,all,all india,FPO formation,fpo.nabard.org,FALSE,FALSE
+89,PMFBY Modified,Agriculture,65,2,Farmers insured,all,all india,Enhanced coverage,pmfby.gov.in,FALSE,FALSE
+90,RKVV 2.0 Agriculture,State Agri,65,0,Farmer,all,state-wise,State agri dev,agricoop.nic.in,FALSE,FALSE
+91,Sub Mission on Agri Extension,Agriculture,65,0,Farmers,all,all india,Extension services,smag.manage.gov.in,FALSE,FALSE
+92,SAMETI State Agri Management,Agriculture,65,0,Farm extension,all,state-wise,Training institute,sameti.gov.in,FALSE,FALSE
+93,National Food Security Mission,Agriculture,65,0,Rice/wheat farmers,all,all india,Productivity boost,nfsmoa.gov.in,FALSE,FALSE
+94,Integrated Horticulture Mission,Agriculture,65,0,Horticulture farmers,all,all india,Fruit/veg dev,nhm.nic.in,FALSE,FALSE
+95,National Mission Coconut,Agriculture,65,0,Coconut farmers,all,coastal states,Coconut dev,coconut.nic.in,FALSE,FALSE
+96,Saffron Mission J&K,Agriculture,65,0,Saffron farmers,all,j&k,Saffron tech,saffronmission.jk.gov.in,FALSE,FALSE
+97,Mission Organic Value Chain,Agriculture,65,0,Organic farmers,all,ne states,Organic farming,movcd.mp.gov.in,FALSE,FALSE
+98,National Mission Oilseeds,Agriculture,65,0,Oilseed farmers,all,all india,Oilseeds boost,nmospi.nic.in,FALSE,FALSE
+99,National Mission Pulses,Agriculture,65,0,Pulse farmers,all,all india,Pulse production,nmp.nic.in,FALSE,FALSE
+100,Integrated Scheme Palm Oil,Agriculture,65,0,Palm oil farmers,all,ne/telangana,Palm oil dev,nhm.nic.in,FALSE,FALSE
+101,PM KUSUM Component A,Agriculture,65,0,Solar pump farmers,all,all india,Solar irrigation,pmkusum.gov.in,FALSE,FALSE
+102,PM KUSUM Component B,Agriculture,65,0,Solar pump,all,all india,Standalone solar,pmkusum.gov.in,FALSE,FALSE
+103,PM KUSUM Component C,Agriculture,65,0,Solar power plant,all,all india,Solar RESCO,pmkusum.gov.in,FALSE,FALSE
+104,PM Fasal Bima Enhanced,Agriculture,65,2,Farmers,all,all india,Add-on cover,pmfby.gov.in,FALSE,FALSE
+105,Micro Irrigation Fund,NABARD,65,0,Micro irrigation,all,all india,₹5000Cr fund,nabard.org,FALSE,FALSE
+106,Agri Infrastructure Fund,NABARD,65,10,Agri infra,all,all india,₹1L Cr credit,amif.nabard.org,FALSE,FALSE
+107,Animal Husbandry Infra Fund,AHD,60,10,Dairy/poultry,all,all india,₹15K Cr fund,ahidf.nabard.org,FALSE,FALSE
+108,Fisheries Infra Fund,DoF,60,10,Fisheries infra,all,coastal states,₹7K Cr fund,ahidf.nabard.org,FALSE,FALSE
+109,PM Formalisation Micro Food,MSE,50,10,Food processing,all,all india,Credit linked subsidy,pmfme.mofpi.gov.in,FALSE,FALSE
+110,Operation Greens,Food Processing,50,0,Tomato onion potato,all,all india,TOP crops,opgreendou.gov.in,FALSE,FALSE
+111,National SC Scholarship,Social Justice,30,4,SC students,all,all india,Post-matric scholarship,scholarships.gov.in,FALSE,FALSE
+112,National ST Scholarship,Tribal Affairs,30,4,ST students,all,all india,Pre/Pre-matric scholarship,tribal.gov.in,FALSE,FALSE
+113,Central Sector Scholarship,Education,25,4,General merit,all,all india,College scholarship,scholarships.gov.in,FALSE,FALSE
+114,PM Yasaswi Scholarship,Minority Affairs,35,5,Minority students,all,all india,Technical scholarship,yasaswi.gov.in,FALSE,FALSE
+115,Top Class Education SC,Social Justice,30,0,SC talent,all,haryana,Not specified,Not available,FALSE,FALSE

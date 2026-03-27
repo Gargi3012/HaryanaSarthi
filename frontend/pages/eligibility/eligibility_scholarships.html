@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scholarship Eligibility - HaryanaSarthi</title>
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="../../assets/logo.jpeg" alt="HaryanaSarthi" class="nav-logo" />
+      <span class="nav-title">HaryanaSarthi</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="../../home.html">Home</a>
+      <a href="../../opportunities.html" class="active-link">Opportunities</a>
+      <a href="../../dashboard.html">Dashboard</a>
+      <a href="../../about.html">About Us</a>
+      <a href="../../contact.html">Contact Info</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="search-wrap">
+        <span>🔍</span>
+        <input type="text" placeholder="Search opportunities..." />
+      </div>
+      <a href="../../auth.html" class="auth-link">Login / Sign up</a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="onboarding-card">
+      <h2>Government Scholarship Eligibility</h2>
+      <p>Check scholarships by class, marks, category and type.</p>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Class</label>
+          <select id="studentClass">
+            <option>8th Pass</option>
+            <option>10th Pass</option>
+            <option>12th Pass</option>
+            <option>Undergraduate</option>
+            <option>Postgraduate</option>
+            <option>Research</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Minimum Marks</label>
+          <input id="schMarks" type="number" />
+        </div>
+      </div>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Eligible Category</label>
+          <select id="schCategory">
+            <option>All</option>
+            <option>PWD</option>
+            <option>ST</option>
+            <option>OBC</option>
+            <option>SC</option>
+            <option>Female</option>
+            <option>Railway Wards</option>
+            <option>Armed Forces Ward</option>
+            <option>Minority</option>
+            <option>NER Students</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Scholarship Type</label>
+          <select id="schType">
+            <option>All</option>
+            <option>Technical Degree</option>
+            <option>Post-Matric</option>
+            <option>Undergraduate</option>
+            <option>Merit-cum-means</option>
+            <option>Technical Diploma</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="checkScholarshipEligibility" class="btn btn-primary">Check Eligibility</button>
+
+      <!-- Quick Switcher -->
+      <div class="quick-switch-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+        <label style="font-size: 14px; color: var(--text-muted); display: block; margin-bottom: 8px;">Want to switch opportunity?</label>
+        <select class="opportunity-switcher" onchange="if(this.value) window.location.href=this.value;" style="width: 100%; max-width: 300px; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none;">
+          <option value="">Select Opportunity...</option>
+          <option value="eligibility_colleges.html">Colleges</option>
+          <option value="eligibility_scholarships.html" selected>Scholarships</option>
+          <option value="eligibility_jobs.html">Jobs</option>
+          <option value="eligibility_exams.html">Exams</option>
+          <option value="eligibility_internships.html">Internships</option>
+          <option value="eligibility_schemes.html">Schemes</option>
+        </select>
+      </div>
+
+    <section class="section-head">
+      <h2>Eligible Scholarships</h2>
+      <p>Based on your selected profile and preferences.</p>
+    </section>
+
+    <section id="scholarshipResults">
+      <p class="muted">Your scholarship results will appear here.</p>
+    </section>
+  </main>
+
+  <script src="../../js/script.js"></script>
+</body>
+</html>

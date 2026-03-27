@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opportunities - HaryanaSarthi</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="assets/logo.jpeg" alt="HaryanaSarthi" class="nav-logo" />
+      <span class="nav-title">HaryanaSarthi</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="home.html">Home</a>
+      <a href="opportunities.html" class="active-link">Opportunities</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Info</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="search-wrap">
+        <span>🔍</span>
+        <input type="text" placeholder="Search opportunities..." />
+      </div>
+      <a href="auth.html" class="auth-link">Login / Sign up</a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="section-head">
+      <h2>Explore Opportunities</h2>
+      <p>Choose a category and check your eligibility with AI.</p>
+    </section>
+
+    <section class="category-list">
+      <div class="category-card">
+        <h3>Government Colleges</h3>
+        <p>Explore colleges and check your eligibility instantly.</p>
+        <a href="pages/eligibility/eligibility_colleges.html" class="btn btn-primary">Explore</a>
+      </div>
+
+      <div class="category-card">
+        <h3>Government Scholarships</h3>
+        <p>Find scholarships based on profile, category and merit.</p>
+        <a href="pages/eligibility/eligibility_scholarships.html" class="btn btn-primary">Explore</a>
+      </div>
+
+      <div class="category-card">
+        <h3>Government Jobs</h3>
+        <p>Discover jobs mapped to your background and profile.</p>
+        <a href="pages/eligibility/eligibility_jobs.html" class="btn btn-primary">Explore</a>
+      </div>
+
+      <div class="category-card">
+        <h3>Government Exams</h3>
+        <p>Explore relevant government exams in one place.</p>
+        <a href="pages/eligibility/eligibility_exams.html" class="btn btn-primary">Explore</a>
+      </div>
+
+      <div class="category-card">
+        <h3>Government Internships</h3>
+        <p>Browse internships for students and job seekers.</p>
+        <a href="pages/eligibility/eligibility_internships.html" class="btn btn-primary">Explore</a>
+      </div>
+
+      <div class="category-card">
+        <h3>Government Schemes</h3>
+        <p>Access schemes matched to your needs and profile.</p>
+        <a href="pages/eligibility/eligibility_schemes.html" class="btn btn-primary">Explore</a>
+      </div>
+    </section>
+
+    <section class="section-head">
+      <h2>Personalized Recommendations</h2>
+      <p>These are shown according to your onboarding preferences.</p>
+    </section>
+
+    <section id="recommendedResults">
+      <p class="muted">Loading recommendations...</p>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

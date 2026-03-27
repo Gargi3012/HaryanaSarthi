@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Eligibility - HaryanaSarthi</title>
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="../../assets/logo.jpeg" alt="HaryanaSarthi" class="nav-logo" />
+      <span class="nav-title">HaryanaSarthi</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="../../home.html">Home</a>
+      <a href="../../opportunities.html" class="active-link">Opportunities</a>
+      <a href="../../dashboard.html">Dashboard</a>
+      <a href="../../about.html">About Us</a>
+      <a href="../../contact.html">Contact Info</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="search-wrap">
+        <span>🔍</span>
+        <input type="text" placeholder="Search opportunities..." />
+      </div>
+      <a href="../../auth.html" class="auth-link">Login / Sign up</a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="onboarding-card">
+      <h2>Government College Eligibility</h2>
+      <p>Fill your details to get AI-based college recommendations.</p>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Age</label>
+          <input id="readonlyAge" readonly />
+        </div>
+        <div class="form-group">
+          <label>Annual Income</label>
+          <input id="readonlyIncome" readonly />
+        </div>
+      </div>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Course Offered</label>
+          <select id="course">
+            <option value="">Select</option>
+            <option>B.Tech</option>
+            <option>BCA</option>
+            <option>BBA</option>
+            <option>Commerce</option>
+            <option>Arts</option>
+            <option>Science</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Entrance Exam</label>
+          <select id="entranceExam">
+            <option value="">Select</option>
+            <option>JEE Main</option>
+            <option>CUET</option>
+            <option>NEET</option>
+            <option>Merit</option>
+            <option>None</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Percentage</label>
+          <input id="percentage" type="number" />
+        </div>
+
+        <div class="form-group">
+          <label>Mode of Study</label>
+          <div class="toggle-row" id="studyModeToggle">
+            <button type="button" class="toggle-btn active" data-value="Full Time">Full Time</button>
+            <button type="button" class="toggle-btn" data-value="Online">Online</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid-two">
+        <div class="form-group">
+          <label>Hostel Required</label>
+          <div class="toggle-row" id="hostelToggle">
+            <button type="button" class="toggle-btn active" data-value="Yes">Yes</button>
+            <button type="button" class="toggle-btn" data-value="No">No</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>&nbsp;</label>
+          <button id="checkCollegeEligibility" class="btn btn-primary full-width-btn">
+            Check Eligibility
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="collegeResults"></section>
+  </main>
+
+  <script src="../../js/script.js"></script>
+</body>
+</html>

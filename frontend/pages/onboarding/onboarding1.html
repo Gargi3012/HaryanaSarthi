@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onboarding 1 - HaryanaSarthi</title>
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+  <main class="center-page">
+    <section class="onboarding-card">
+      <div class="step-indicator">Step 1 of 4</div>
+      <h2>Tell us about yourself</h2>
+      <p>This helps us show opportunities you are eligible for.</p>
+
+      <div class="option-grid single-select" data-key="user_type">
+        <button type="button" class="option-card">Student</button>
+        <button type="button" class="option-card">Job Seeker</button>
+        <button type="button" class="option-card">General Citizen</button>
+      </div>
+
+      <div class="nav-row">
+        <button type="button" class="btn btn-outline" disabled>Back</button>
+
+        <div class="nav-right-group">
+          <button type="button" class="btn btn-muted skip-btn" data-step="1">
+            Skip for now
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-primary next-btn"
+            data-step="1"
+            data-next="onboarding2.html"
+            disabled
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/script.js"></script>
+</body>
+</html>
