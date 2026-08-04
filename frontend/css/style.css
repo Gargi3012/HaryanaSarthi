@@ -15,6 +15,15 @@
   --radius-sm: 10px;
 }
 
+body.dark-theme {
+  --bg-color: #0f172a;
+  --bg-secondary: #020617;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #1e293b;
+  --card-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+}
+
 * {
   margin: 0;
   padding: 0;
