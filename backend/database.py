@@ -63,17 +63,26 @@ if "sqlite" in ASYNC_DATABASE_URL:
     async_engine = create_async_engine(ASYNC_DATABASE_URL)
 elif _needs_asyncpg_ssl:
     # asyncpg requires ssl= connect_arg, NOT sslmode= query param
+    # pool_pre_ping=True recycles stale connections (Neon serverless DB drops idle connections)
     import ssl as _ssl
     _ssl_ctx = _ssl.create_default_context()
     async_engine = create_async_engine(
         ASYNC_DATABASE_URL,
         connect_args={"ssl": _ssl_ctx},
-        pool_size=10,
-        max_overflow=20
+        pool_pre_ping=True,
+        pool_size=5,
+        max_overflow=10,
+        pool_recycle=300,  # Recycle connections every 5 minutes
     )
-    print("[DATABASE] Async PostgreSQL engine configured with SSL (asyncpg).")
+    print("[DATABASE] Async PostgreSQL engine configured with SSL + pool_pre_ping (asyncpg).")
 else:
-    async_engine = create_async_engine(ASYNC_DATABASE_URL, pool_size=10, max_overflow=20)
+    async_engine = create_async_engine(
+        ASYNC_DATABASE_URL,
+        pool_pre_ping=True,
+        pool_size=5,
+        max_overflow=10,
+        pool_recycle=300,
+    )
 
 # SQLAlchemy 2.x async_sessionmaker takes engine as first positional arg, no bind= kwarg
 AsyncSessionLocal = async_sessionmaker(
