@@ -41,19 +41,18 @@ SessionLocal = sessionmaker(
     bind=engine
 )
 
-# Async Configuration
-async_connect_args = {}
+# Async Configuration — aiosqlite does NOT support check_same_thread
 if "sqlite" in ASYNC_DATABASE_URL:
-    async_connect_args = {"check_same_thread": False}
-    async_engine = create_async_engine(ASYNC_DATABASE_URL, connect_args=async_connect_args)
+    async_engine = create_async_engine(ASYNC_DATABASE_URL)
 else:
     async_engine = create_async_engine(ASYNC_DATABASE_URL, pool_size=10, max_overflow=20)
 
+# SQLAlchemy 2.x async_sessionmaker takes engine as first positional arg, no bind= kwarg
 AsyncSessionLocal = async_sessionmaker(
+    async_engine,
+    class_=AsyncSession,
     autocommit=False,
     autoflush=False,
-    bind=async_engine,
-    class_=AsyncSession
 )
 
 Base = declarative_base()

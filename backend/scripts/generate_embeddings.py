@@ -28,11 +28,8 @@ def backfill_embeddings():
     Base.metadata.create_all(bind=engine)
     
     db = SessionLocal()
-    api_key = os.getenv("GROQ_API_KEY")
-    if not api_key:
-        print("[BACKFILL ERROR] GROQ_API_KEY environment variable is not configured. Cannot generate embeddings.")
-        db.close()
-        return
+    # Note: get_embedding() uses HuggingFace inference API with offline hash fallback.
+    # No API key required — Groq does NOT provide an embeddings endpoint.
 
     # Seed data from CSV if not loaded
     try:

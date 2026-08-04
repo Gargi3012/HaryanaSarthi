@@ -13,7 +13,7 @@ def create_dummy_users(db: Session):
     
     users = [
         User(
-            user_id="user_id1",
+            user_id="user1",
             name="Gargi Sharma",
             age=20,
             category="General",
@@ -29,7 +29,7 @@ def create_dummy_users(db: Session):
             password_hash=hash_password("gargi123"),
         ),
         User(
-            user_id="user_id2",
+            user_id="user2",
             name="Dev Rohilla",
             age=22,
             category="OBC",
@@ -45,7 +45,7 @@ def create_dummy_users(db: Session):
             password_hash=hash_password("gargi123"),
         ),
         User(
-            user_id="user_id3",
+            user_id="user3",
             name="Aditi Khasa",
             age=24,
             category="SC",

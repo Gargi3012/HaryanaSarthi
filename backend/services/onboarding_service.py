@@ -29,30 +29,34 @@ async def save_step(db: AsyncSession, session_id: str, payload: SaveStepRequest)
     if not data:
         return None
 
-    if payload.step_number == 1:
-        if payload.user_type is not None:
-            data.user_type = str(payload.user_type)
+    # Always update any provided field — frontend may send all fields in one step
+    if payload.user_type is not None:
+        data.user_type = str(payload.user_type)
+
+    if payload.looking_for is not None:
+        if isinstance(payload.looking_for, list):
+            data.looking_for = ", ".join([str(x) for x in payload.looking_for])
+        else:
+            data.looking_for = str(payload.looking_for)
+
+    if payload.category is not None:
+        data.category = str(payload.category)
+
+    if payload.location_preference is not None:
+        data.location_preference = str(payload.location_preference)
+
+    # Mark appropriate step completion flag based on step_number
+    step = payload.step_number
+    if step == 1:
         data.step1_completed = not payload.is_skipped
         data.step1_skipped = payload.is_skipped
-
-    elif payload.step_number == 2:
-        if payload.looking_for is not None:
-            if isinstance(payload.looking_for, list):
-                data.looking_for = ", ".join([str(x) for x in payload.looking_for])
-            else:
-                data.looking_for = str(payload.looking_for)
+    elif step == 2:
         data.step2_completed = not payload.is_skipped
         data.step2_skipped = payload.is_skipped
-
-    elif payload.step_number == 3:
-        if payload.category is not None:
-            data.category = str(payload.category)
+    elif step == 3:
         data.step3_completed = not payload.is_skipped
         data.step3_skipped = payload.is_skipped
-
-    elif payload.step_number == 4:
-        if payload.location_preference is not None:
-            data.location_preference = str(payload.location_preference)
+    elif step == 4:
         data.step4_completed = not payload.is_skipped
         data.step4_skipped = payload.is_skipped
 

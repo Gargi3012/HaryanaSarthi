@@ -16,7 +16,7 @@ app = FastAPI(title="HaryanaSarthi API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,  # Cannot use True with wildcard origins per CORS spec
     allow_methods=["*"],
     allow_headers=["*"],
 )
