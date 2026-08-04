@@ -1,5 +1,7 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from config import settings
 from database import Base, engine, SessionLocal
@@ -10,7 +12,7 @@ from routers import auth, users, onboarding, opportunities, eligibility, stats, 
 
 app = FastAPI(title="HaryanaSarthi API")
 
-# Configure CORS using settings defaults or allow wildcard for API accessibility
+# Configure CORS (still helpful for external developers testing APIs)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -29,15 +31,12 @@ def startup_event():
     try:
         create_dummy_users(db)
         dataset_loader.load_all()
+        dataset_loader.migrate_to_db(db)
     finally:
         db.close()
 
 
-@app.get("/")
-def root():
-    return {"message": "HaryanaSarthi backend is running"}
-
-
+# Include API routers
 app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(onboarding.router)
@@ -45,3 +44,8 @@ app.include_router(opportunities.router)
 app.include_router(eligibility.router)
 app.include_router(stats.router)
 app.include_router(chatbot.router)
+
+# Mount frontend static files on the same port at the root path '/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
