@@ -1,26 +1,31 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 from models import OnboardingData
 from schemas import SaveStepRequest
 
 
-def create_session(db: Session, session_id: str):
-    existing = db.query(OnboardingData).filter(OnboardingData.session_id == session_id).first()
+async def create_session(db: AsyncSession, session_id: str):
+    query = select(OnboardingData).where(OnboardingData.session_id == session_id)
+    result = await db.execute(query)
+    existing = result.scalar_one_or_none()
     if existing:
         return existing
 
     session = OnboardingData(session_id=session_id)
     db.add(session)
-    db.commit()
-    db.refresh(session)
+    await db.commit()
+    await db.refresh(session)
     return session
 
 
-def get_onboarding_data(db: Session, session_id: str):
-    return db.query(OnboardingData).filter(OnboardingData.session_id == session_id).first()
+async def get_onboarding_data(db: AsyncSession, session_id: str):
+    query = select(OnboardingData).where(OnboardingData.session_id == session_id)
+    result = await db.execute(query)
+    return result.scalar_one_or_none()
 
 
-def save_step(db: Session, session_id: str, payload: SaveStepRequest):
-    data = get_onboarding_data(db, session_id)
+async def save_step(db: AsyncSession, session_id: str, payload: SaveStepRequest):
+    data = await get_onboarding_data(db, session_id)
     if not data:
         return None
 
@@ -51,14 +56,14 @@ def save_step(db: Session, session_id: str, payload: SaveStepRequest):
         data.step4_completed = not payload.is_skipped
         data.step4_skipped = payload.is_skipped
 
-    db.commit()
-    db.refresh(data)
+    await db.commit()
+    await db.refresh(data)
     return data
 
 
-def complete_onboarding(db: Session, session_id: str):
-    data = get_onboarding_data(db, session_id)
+async def complete_onboarding(db: AsyncSession, session_id: str):
+    data = await get_onboarding_data(db, session_id)
     if not data:
         return False
-    db.commit()
+    await db.commit()
     return True

@@ -1,9 +1,9 @@
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from database import get_db
+from database import get_async_db
 from schemas import SaveStepRequest
 from services.onboarding_service import (
     create_session,
@@ -16,9 +16,9 @@ router = APIRouter(prefix="/onboarding", tags=["onboarding"])
 
 
 @router.post("/session/create")
-def create_onboarding_session(db: Session = Depends(get_db)):
+async def create_onboarding_session(db: AsyncSession = Depends(get_async_db)):
     session_id = f"session_{uuid.uuid4().hex[:10]}"
-    create_session(db, session_id)
+    await create_session(db, session_id)
     return {
         "session_id": session_id,
         "message": "Session created successfully"
@@ -26,10 +26,13 @@ def create_onboarding_session(db: Session = Depends(get_db)):
 
 
 @router.get("/session/{session_id}")
-def get_onboarding_session(session_id: str, db: Session = Depends(get_db)):
-    data = get_onboarding_data(db, session_id)
+async def get_onboarding_session(session_id: str, db: AsyncSession = Depends(get_async_db)):
+    data = await get_onboarding_data(db, session_id)
     if not data:
-        raise HTTPException(status_code=404, detail="Session not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Session not found"
+        )
 
     looking_for = []
     if data.looking_for:
@@ -53,16 +56,26 @@ def get_onboarding_session(session_id: str, db: Session = Depends(get_db)):
 
 
 @router.post("/session/{session_id}/save-step")
-def save_onboarding_step(session_id: str, payload: SaveStepRequest, db: Session = Depends(get_db)):
-    data = save_step(db, session_id, payload)
+async def save_onboarding_step(
+    session_id: str, 
+    payload: SaveStepRequest, 
+    db: AsyncSession = Depends(get_async_db)
+):
+    data = await save_step(db, session_id, payload)
     if not data:
-        raise HTTPException(status_code=404, detail="Session not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Session not found"
+        )
     return {"message": "Step saved successfully", "session_id": session_id}
 
 
 @router.post("/session/{session_id}/complete")
-def complete_onboarding_session(session_id: str, db: Session = Depends(get_db)):
-    success = complete_onboarding(db, session_id)
+async def complete_onboarding_session(session_id: str, db: AsyncSession = Depends(get_async_db)):
+    success = await complete_onboarding(db, session_id)
     if not success:
-        raise HTTPException(status_code=404, detail="Session not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Session not found"
+        )
     return {"message": "Onboarding completed successfully", "session_id": session_id}
