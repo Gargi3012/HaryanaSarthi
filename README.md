@@ -237,16 +237,6 @@ uvicorn main:app --port 8000
 
 ---
 
-## Test Users
-
-| user_id | Password | Name | Category |
-|---|---|---|---|
-| `user1` | `gargi123` | Gargi Sharma | General, Student, Age 20 |
-| `user2` | `gargi123` | Dev Rohilla | OBC, Job Seeker, Age 22 |
-| `user3` | `gargi123` | Aditi Khasa | SC, Student, Age 24 |
-
----
-
 ## Running Tests
 
 ```bash
