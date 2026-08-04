@@ -1,31 +1,48 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Overview Metrics (Simulated Data)
-  const stats = {
-    opportunities: 10450,
-    users: 45200,
-    apps: 89000,
-    successRate: '76%'
-  };
+const API_BASE = "http://127.0.0.1:8000";
 
-  document.getElementById('metric-opps').innerText = stats.opportunities.toLocaleString();
-  document.getElementById('metric-users').innerText = stats.users.toLocaleString();
-  document.getElementById('metric-apps').innerText = stats.apps.toLocaleString();
-  document.getElementById('metric-rate').innerText = stats.successRate;
-
+document.addEventListener('DOMContentLoaded', async () => {
   // Global Chart Defaults
   Chart.defaults.font.family = "'Outfit', sans-serif";
   Chart.defaults.color = '#64748b';
+
+  let colleges = 100;
+  let scholarships = 1652;
+  let internships = 1000;
+  let jobs_exams = 50000;
+  let schemes = 115;
+  let totalOpps = colleges + scholarships + internships + jobs_exams + schemes;
+
+  try {
+    const res = await fetch(`${API_BASE}/stats`);
+    if (res.ok) {
+      const data = await res.json();
+      colleges = data.colleges || 0;
+      jobs_exams = data.jobs_exams || 0;
+      scholarships = data.scholarships || 0;
+      internships = data.internships || 0;
+      schemes = data.schemes || 0;
+      totalOpps = colleges + scholarships + internships + jobs_exams + schemes;
+    }
+  } catch (err) {
+    console.error("Failed to fetch live stats, using fallback defaults:", err);
+  }
+
+  // Update Overview Metrics
+  document.getElementById('metric-opps').innerText = totalOpps.toLocaleString();
+  document.getElementById('metric-users').innerText = "3"; // Seeded users
+  document.getElementById('metric-apps').innerText = "12";  // Sample applications count
+  document.getElementById('metric-rate').innerText = "85%";
 
   // 2. Opportunities Distribution (Pie Chart)
   const oppsDistCtx = document.getElementById('oppsDistChart').getContext('2d');
   new Chart(oppsDistCtx, {
     type: 'pie',
     data: {
-      labels: ['Colleges', 'Scholarships', 'Internships', 'Jobs', 'Exams', 'Schemes'],
+      labels: ['Colleges', 'Scholarships', 'Internships', 'Jobs & Exams', 'Schemes'],
       datasets: [{
-        data: [15, 30, 20, 10, 15, 10],
+        data: [colleges, scholarships, internships, jobs_exams, schemes],
         backgroundColor: [
-          '#16a34a', '#0ea5e9', '#f59e0b', '#ef4444', '#8b5cf6', '#14b8a6'
+          '#16a34a', '#0ea5e9', '#f59e0b', '#8b5cf6', '#14b8a6'
         ],
         borderWidth: 0
       }]
