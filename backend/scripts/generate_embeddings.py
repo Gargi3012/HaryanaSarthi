@@ -6,9 +6,10 @@ from dotenv import load_dotenv
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 load_dotenv()
 
-from database import SessionLocal
+from database import SessionLocal, Base, engine
 from models import College, Scholarship, Scheme, Internship
 from services.gemini_service import get_embedding
+from services.dataset_loader import dataset_loader
 
 def build_college_text(item) -> str:
     return f"College: {item.college_name}. Location: {item.location}. University: {item.affiliated_university}. Courses: {item.courses_offered}. Eligibility: min percentage required {item.min_percentage_required}%. Study mode: {item.mode_of_study}. Hostel: {item.hostel_facilities}."
@@ -23,11 +24,23 @@ def build_internship_text(item) -> str:
     return f"Internship Sector: {item.sector}. City: {item.location_city}. Duration: {item.duration}. Stipend: {item.stipend_per_month_inr} INR. Mode: {item.mode}."
 
 def backfill_embeddings():
+    # Ensure tables exist in the database
+    Base.metadata.create_all(bind=engine)
+    
     db = SessionLocal()
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
         print("[BACKFILL ERROR] GROQ_API_KEY environment variable is not configured. Cannot generate embeddings.")
+        db.close()
         return
+
+    # Seed data from CSV if not loaded
+    try:
+        print("[BACKFILL] Loading CSV datasets...")
+        dataset_loader.load_all()
+        dataset_loader.migrate_to_db(db)
+    except Exception as e:
+        print(f"[BACKFILL WARNING] CSV migration failed or already completed: {e}")
 
     targets = [
         (College, build_college_text, "Colleges"),
