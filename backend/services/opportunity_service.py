@@ -1,20 +1,14 @@
-from services.dataset_loader import dataset_loader
-
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
+from models import College, Scholarship, JobExam, Internship, Scheme
+from typing import Dict, Any
 
 def _safe_text(value):
     if value is None:
         return ""
     return str(value).strip().lower()
 
-
-def _top_records(df, count=4):
-    if df is None or df.empty:
-        return []
-    # Fill NaN with empty string to prevent invalid JSON 'NaN' errors in browser
-    return df.head(count).fillna("").to_dict(orient="records")
-
-
-def get_recommended_opportunities(onboarding_data: dict):
+async def get_recommended_opportunities(db: AsyncSession, onboarding_data: dict) -> Dict[str, Any]:
     user_type = _safe_text(onboarding_data.get("user_type"))
     looking_for = onboarding_data.get("looking_for", [])
     if not isinstance(looking_for, list):
@@ -33,78 +27,74 @@ def get_recommended_opportunities(onboarding_data: dict):
         "schemes": [],
     }
 
-    colleges_df = dataset_loader.get("colleges")
-    jobs_exams_df = dataset_loader.get("jobs_exams")
-    internships_df = dataset_loader.get("internships")
-    scholarships_df = dataset_loader.get("scholarships")
-    schemes_df = dataset_loader.get("schemes")
+    limit = 4
 
+    def to_dict_list(objects):
+        res = []
+        for obj in objects:
+            d = {col.name: getattr(obj, col.name) for col in obj.__table__.columns if col.name != "embedding"}
+            if hasattr(obj, "ml_score"):
+                d["ml_score"] = obj.ml_score
+            res.append(d)
+        return res
+
+    # 1. Colleges
     if "college" in looking_for or "education" in looking_for or user_type == "student":
-        results["colleges"] = _top_records(colleges_df, 4)
+        q = select(College)
+        if location_preference:
+            q = q.order_by(College.location.ilike(f"%{location_preference}%").desc())
+        q = q.limit(limit)
+        colleges = (await db.execute(q)).scalars().all()
+        results["colleges"] = to_dict_list(colleges)
 
+    # 2. Scholarships
     if "scholarship" in looking_for or user_type == "student":
-        results["scholarships"] = _top_records(scholarships_df, 4)
+        q = select(Scholarship)
+        if category:
+            q = q.order_by(Scholarship.eligible_category.ilike(f"%{category}%").desc())
+        q = q.limit(limit)
+        scholarships = (await db.execute(q)).scalars().all()
+        results["scholarships"] = to_dict_list(scholarships)
 
+    # 3. Jobs & Exams
     if "job" in looking_for or user_type == "job seeker":
-        results["jobs"] = _top_records(jobs_exams_df, 4)
+        q = select(JobExam).where(JobExam.exam_category.ilike("%job%"))
+        if location_preference:
+            q = q.order_by(JobExam.job_location.ilike(f"%{location_preference}%").desc())
+        q = q.limit(limit)
+        jobs = (await db.execute(q)).scalars().all()
+        results["jobs"] = to_dict_list(jobs)
 
     if "exam" in looking_for or user_type == "job seeker":
-        results["exams"] = _top_records(jobs_exams_df, 4)
+        q = select(JobExam).where(JobExam.exam_category.ilike("%exam%"))
+        q = q.limit(limit)
+        exams = (await db.execute(q)).scalars().all()
+        results["exams"] = to_dict_list(exams)
 
+    # 4. Internships
     if "internship" in looking_for or user_type == "student":
-        results["internships"] = _top_records(internships_df, 4)
+        q = select(Internship)
+        if location_preference:
+            q = q.order_by(Internship.location_city.ilike(f"%{location_preference}%").desc())
+        q = q.limit(limit)
+        internships = (await db.execute(q)).scalars().all()
+        results["internships"] = to_dict_list(internships)
 
+    # 5. Schemes
     if "scheme" in looking_for or user_type in ["farmer", "women beneficiary", "general citizen", "msme / business owner"]:
-        if user_type == "general citizen" and any(k in looking_for for k in ["healthcare", "agriculture", "women_child", "transport", "housing"]):
-            keywords = []
-            if "healthcare" in looking_for: keywords.extend(["health"])
-            if "agriculture" in looking_for: keywords.extend(["farmer", "agriculture"])
-            if "women_child" in looking_for: keywords.extend(["women", "child", "girl"])
-            if "transport" in looking_for: keywords.extend(["transport", "travel", "bus"])
-            if "housing" in looking_for: keywords.extend(["housing", "awas"])
-            
-            mask = schemes_df.apply(lambda row: any(kw in str(row.values).lower() for kw in keywords), axis=1)
-            results["schemes"] = _top_records(schemes_df[mask], 4)
-        else:
-            results["schemes"] = _top_records(schemes_df, 4)
+        q = select(Scheme)
+        if category:
+            q = q.order_by(Scheme.category.ilike(f"%{category}%").desc())
+        q = q.limit(limit)
+        schemes = (await db.execute(q)).scalars().all()
+        results["schemes"] = to_dict_list(schemes)
 
-    # fallback so page never looks empty
+    # Fallback matching
     if not any(results.values()):
-        results["colleges"] = _top_records(colleges_df, 4)
-        results["scholarships"] = _top_records(scholarships_df, 4)
-        results["jobs"] = _top_records(jobs_exams_df, 4)
-        results["internships"] = _top_records(internships_df, 4)
-        results["schemes"] = _top_records(schemes_df, 4)
-
-    # optional simple location/category preference influence
-    if location_preference:
-        for key in ["colleges", "jobs", "schemes"]:
-            items = results.get(key, [])
-            boosted = []
-            others = []
-
-            for item in items:
-                text_blob = " ".join(str(v) for v in item.values()).lower()
-                if location_preference in text_blob:
-                    boosted.append(item)
-                else:
-                    others.append(item)
-
-            results[key] = boosted + others
-
-    if category:
-        for key in ["scholarships", "schemes"]:
-            items = results.get(key, [])
-            boosted = []
-            others = []
-
-            for item in items:
-                text_blob = " ".join(str(v) for v in item.values()).lower()
-                if category in text_blob or "all" in text_blob:
-                    boosted.append(item)
-                else:
-                    others.append(item)
-
-            results[key] = boosted + others
+        results["colleges"] = to_dict_list((await db.execute(select(College).limit(limit))).scalars().all())
+        results["scholarships"] = to_dict_list((await db.execute(select(Scholarship).limit(limit))).scalars().all())
+        results["jobs"] = to_dict_list((await db.execute(select(JobExam).where(JobExam.exam_category.ilike("%job%")).limit(limit))).scalars().all())
+        results["internships"] = to_dict_list((await db.execute(select(Internship).limit(limit))).scalars().all())
+        results["schemes"] = to_dict_list((await db.execute(select(Scheme).limit(limit))).scalars().all())
 
     return results

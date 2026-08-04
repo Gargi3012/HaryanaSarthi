@@ -1,18 +1,18 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from database import get_async_db
 from services.opportunity_service import get_recommended_opportunities
 
 router = APIRouter(prefix="/opportunities", tags=["opportunities"])
 
-# temporary in-memory onboarding fallback from localStorage style flow
-# if your onboarding DB/session route already exists, keep it simple here
-
 
 @router.get("/recommended")
-def recommended_opportunities(
+async def recommended_opportunities(
     user_type: str = "",
     looking_for: str = "",
     category: str = "",
     location_preference: str = "",
+    db: AsyncSession = Depends(get_async_db)
 ):
     onboarding_data = {
         "user_type": user_type,
@@ -21,4 +21,4 @@ def recommended_opportunities(
         "location_preference": location_preference,
     }
 
-    return get_recommended_opportunities(onboarding_data)
+    return await get_recommended_opportunities(db, onboarding_data)

@@ -189,3 +189,49 @@ Instructions:
         return "Document analysis failed. Please try again later."
     except requests.RequestException:
         return "Unable to connect to Gemini AI. Please check your internet connection."
+
+
+def get_embedding(text: str) -> list[float]:
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        print("[EMBEDDING ERROR] GEMINI_API_KEY not configured.")
+        return []
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/text-multilingual-embedding-002:embedContent?key={api_key}"
+    payload = {
+        "content": {
+            "parts": [{"text": text}]
+        }
+    }
+    try:
+        response = requests.post(url, json=payload, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        return data["embedding"]["values"]
+    except Exception as e:
+        print(f"[EMBEDDING ERROR] Failed to fetch embedding: {e}")
+        return []
+
+
+async def get_embedding_async(text: str) -> list[float]:
+    from config import settings
+    api_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        return []
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/text-multilingual-embedding-002:embedContent?key={api_key}"
+    payload = {
+        "content": {
+            "parts": [{"text": text}]
+        }
+    }
+    try:
+        import httpx
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, json=payload, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+            return data["embedding"]["values"]
+    except Exception as e:
+        print(f"[EMBEDDING ERROR] Async embedding failed: {e}")
+        return []
