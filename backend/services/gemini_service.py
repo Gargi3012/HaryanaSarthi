@@ -2,6 +2,8 @@ import os
 import io
 import base64
 import httpx
+import hashlib
+import numpy as np
 from typing import Optional, Dict, Any
 from pypdf import PdfReader
 from config import settings
@@ -10,7 +12,6 @@ from config import settings
 GROQ_API_BASE = "https://api.groq.com/openai/v1"
 GROQ_TEXT_MODEL = "llama-3.3-70b-versatile"
 GROQ_VISION_MODEL = "llama-3.2-11b-vision-preview"
-GROQ_EMBEDDING_MODEL = "nomic-embed-text-v1.5"
 
 
 def _build_context(user_profile: Optional[Dict[str, Any]] = None) -> str:
@@ -211,58 +212,58 @@ Instructions:
         return "Unable to complete document analysis. Please check your network connection."
 
 
+def get_hash_embedding(text: str, dimension: int = 384) -> list[float]:
+    """
+    Offline fallback vectorizer that maps words to a fixed-length normalized dense vector.
+    Uses MD5 feature hashing Trick. Completely offline, fast, and requires no external APIs.
+    """
+    vector = np.zeros(dimension, dtype=float)
+    words = text.lower().split()
+    if not words:
+        return [0.0] * dimension
+    
+    for word in words:
+        h = hashlib.md5(word.encode('utf-8')).hexdigest()
+        slot = int(h, 16) % dimension
+        vector[slot] += 1.0
+        
+    norm = np.linalg.norm(vector)
+    if norm > 0:
+        vector = vector / norm
+    return vector.tolist()
+
+
 def get_embedding(text: str) -> list[float]:
     """
-    Synchronously fetches vector embeddings from Groq using nomic-embed-text-v1.5.
+    Tries fetching free semantic text embeddings from HuggingFace Inference API.
+    Falls back instantly to local Feature Hashing Vectorizer if offline.
     """
-    api_key = settings.GROQ_API_KEY or os.getenv("GROQ_API_KEY")
-    if not api_key:
-        print("[EMBEDDING ERROR] GROQ_API_KEY not configured.")
-        return []
-
-    url = f"{GROQ_API_BASE}/embeddings"
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "model": GROQ_EMBEDDING_MODEL,
-        "input": text
-    }
+    url = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
     try:
         import requests
-        response = requests.post(url, json=payload, headers=headers, timeout=12)
-        response.raise_for_status()
-        data = response.json()
-        return data["data"][0]["embedding"]
-    except Exception as e:
-        print(f"[EMBEDDING ERROR] Groq embed request failed: {e}")
-        return []
+        response = requests.post(url, json={"inputs": text}, timeout=4)
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list) and len(data) > 0 and isinstance(data[0], float):
+                return data
+    except Exception:
+        pass
+    return get_hash_embedding(text)
 
 
 async def get_embedding_async(text: str) -> list[float]:
     """
-    Asynchronously fetches vector embeddings from Groq using nomic-embed-text-v1.5.
+    Asynchronously fetches free text embeddings from HuggingFace Inference API.
+    Falls back instantly to local Feature Hashing Vectorizer if network fails.
     """
-    api_key = settings.GROQ_API_KEY or os.getenv("GROQ_API_KEY")
-    if not api_key:
-        return []
-
-    url = f"{GROQ_API_BASE}/embeddings"
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "model": GROQ_EMBEDDING_MODEL,
-        "input": text
-    }
+    url = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
     try:
         async with httpx.AsyncClient() as client:
-            response = await client.post(url, json=payload, headers=headers, timeout=12)
-            response.raise_for_status()
-            data = response.json()
-            return data["data"][0]["embedding"]
-    except Exception as e:
-        print(f"[EMBEDDING ERROR] Groq async embed request failed: {e}")
-        return []
+            response = await client.post(url, json={"inputs": text}, timeout=4)
+            if response.status_code == 200:
+                data = response.json()
+                if isinstance(data, list) and len(data) > 0 and isinstance(data[0], float):
+                    return data
+    except Exception:
+        pass
+    return get_hash_embedding(text)

@@ -17,4 +17,5 @@ asyncpg
 pydantic-settings
 google-genai
 aiosqlite
-pypdf
+pypdf
+beautifulsoup4
