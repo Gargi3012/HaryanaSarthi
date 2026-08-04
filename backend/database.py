@@ -6,6 +6,11 @@ from config import settings
 
 DATABASE_URL = settings.DATABASE_URL
 
+# Validate if DATABASE_URL is a valid SQL URI scheme to prevent environment collisions
+if not (DATABASE_URL.startswith("sqlite://") or DATABASE_URL.startswith("postgres://") or DATABASE_URL.startswith("postgresql://")):
+    print(f"[DATABASE WARNING] DATABASE_URL '{DATABASE_URL}' is not a valid SQL URI. Falling back to local SQLite.")
+    DATABASE_URL = "sqlite:///./haryanasarthi.db"
+
 # Normalize PostgreSQL URLs for SQLAlchemy + asyncpg
 if DATABASE_URL.startswith("postgres://"):
     ASYNC_DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
