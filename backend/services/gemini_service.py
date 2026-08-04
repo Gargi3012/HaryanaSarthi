@@ -1,9 +1,10 @@
 import os
-import requests
+import httpx
 from typing import Optional, Dict, Any
+from config import settings
 
 GEMINI_MODEL = "gemini-2.0-flash"
-
+GROQ_MODEL = "llama-3.3-70b-specdec"  # Ultra-fast, high-quality reasoning text model from Groq
 
 def _build_context(user_profile: Optional[Dict[str, Any]] = None) -> str:
     if not user_profile:
@@ -56,16 +57,46 @@ def _system_prompt_for_mode(mode: str) -> str:
     )
 
 
-def ask_gemini(message: str, mode: str = "general", user_profile: Optional[Dict[str, Any]] = None) -> str:
-    # Use environment variable from .env
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        return (
-            "Gemini API key not configured. Please add GEMINI_API_KEY to the .env file."
-        )
-
+async def ask_llm(message: str, mode: str = "general", user_profile: Optional[Dict[str, Any]] = None) -> str:
+    """
+    Asynchronously queries the best available LLM. Routes general text queries to Groq 
+    if a GROQ_API_KEY is configured (for low latency), otherwise uses Gemini 2.0 Flash.
+    """
+    groq_api_key = settings.GROQ_API_KEY or os.getenv("GROQ_API_KEY")
     system_prompt = _system_prompt_for_mode(mode)
     profile_context = _build_context(user_profile)
+
+    # 1. Route to Groq if key is available
+    if groq_api_key:
+        print("[LLM ROUTER] Routing query to Groq (Llama-3.3)...")
+        url = "https://api.groq.com/openai/v1/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {groq_api_key}",
+            "Content-Type": "application/json"
+        }
+        user_content = f"User profile:\n{profile_context}\n\nUser message:\n{message}"
+        payload = {
+            "model": GROQ_MODEL,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_content}
+            ],
+            "temperature": 0.2
+        }
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(url, json=payload, headers=headers, timeout=20.0)
+                response.raise_for_status()
+                data = response.json()
+                return data["choices"][0]["message"]["content"].strip()
+        except Exception as e:
+            print(f"[LLM ROUTER ERROR] Groq request failed, falling back to Gemini: {e}")
+
+    # 2. Fallback to Gemini 2.0 Flash
+    print("[LLM ROUTER] Routing query to Gemini...")
+    api_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        return "Gemini API key not configured. Please add GEMINI_API_KEY to the .env file."
 
     final_prompt = f"""
 {system_prompt}
@@ -82,49 +113,45 @@ Instructions:
 - If user asks what to do next, give step-by-step next actions.
 - If user asks in Hinglish, reply in Hinglish.
 """
-
-    url = (
-        f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{GEMINI_MODEL}:generateContent?key={api_key}"
-    )
-
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={api_key}"
     payload = {
         "contents": [
             {
-                "parts": [
-                    {"text": final_prompt}
-                ]
+                "parts": [{"text": final_prompt}]
             }
         ]
     }
-
     try:
-        response = requests.post(url, json=payload, timeout=30)
-        response.raise_for_status()
-        data = response.json()
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, json=payload, timeout=20.0)
+            response.raise_for_status()
+            data = response.json()
 
-        candidates = data.get("candidates", [])
-        if not candidates:
-            return "No response received from Gemini."
+            candidates = data.get("candidates", [])
+            if not candidates:
+                return "No response received from Gemini."
 
-        content = candidates[0].get("content", {})
-        parts = content.get("parts", [])
-        if not parts:
-            return "No response text received from Gemini."
+            content = candidates[0].get("content", {})
+            parts = content.get("parts", [])
+            if not parts:
+                return "No response text received from Gemini."
 
-        text = "".join(part.get("text", "") for part in parts).strip()
-        return text or "Gemini returned an empty response."
+            return "".join(part.get("text", "") for part in parts).strip()
 
-    except requests.HTTPError as e:
-        if e.response is not None and e.response.status_code == 429:
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 429:
             return "AI is receiving too many requests right now. Please wait a moment and try again."
-        return "Gemini request failed. Please try again later."
-    except requests.RequestException:
-        return "Unable to connect to Gemini AI. Please check your internet connection."
+        return "AI response request failed. Please try again later."
+    except Exception as e:
+        print(f"[LLM ERROR] Gemini call failed: {e}")
+        return "Unable to connect to AI server. Please check your internet connection."
 
 
-def analyze_document(file_data: str, mime_type: str, opportunity_name: str, user_profile: Optional[Dict[str, Any]] = None) -> str:
-    api_key = os.getenv("GEMINI_API_KEY")
+async def analyze_document_async(file_data: str, mime_type: str, opportunity_name: str, user_profile: Optional[Dict[str, Any]] = None) -> str:
+    """
+    Asynchronously queries Gemini 2.0 Flash to parse and verify uploaded documents.
+    """
+    api_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY")
     if not api_key:
         return "Gemini API key not configured. Please add GEMINI_API_KEY to the .env file."
 
@@ -149,7 +176,6 @@ Instructions:
 """
 
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={api_key}"
-
     payload = {
         "contents": [
             {
@@ -165,34 +191,34 @@ Instructions:
             }
         ]
     }
-
     try:
-        response = requests.post(url, json=payload, timeout=45)
-        response.raise_for_status()
-        data = response.json()
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, json=payload, timeout=45.0)
+            response.raise_for_status()
+            data = response.json()
 
-        candidates = data.get("candidates", [])
-        if not candidates:
-            return "No response received from Gemini."
+            candidates = data.get("candidates", [])
+            if not candidates:
+                return "No response received from Gemini."
 
-        content = candidates[0].get("content", {})
-        parts = content.get("parts", [])
-        if not parts:
-            return "No response text received from Gemini."
+            content = candidates[0].get("content", {})
+            parts = content.get("parts", [])
+            if not parts:
+                return "No response text received from Gemini."
 
-        text = "".join(part.get("text", "") for part in parts).strip()
-        return text or "Gemini returned an empty response."
+            return "".join(part.get("text", "") for part in parts).strip()
 
-    except requests.HTTPError as e:
-        if e.response is not None and e.response.status_code == 429:
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 429:
             return "AI is receiving too many requests right now. Please wait a moment and try again."
         return "Document analysis failed. Please try again later."
-    except requests.RequestException:
-        return "Unable to connect to Gemini AI. Please check your internet connection."
+    except Exception as e:
+        print(f"[LLM ERROR] Document analysis failed: {e}")
+        return "Unable to connect to AI server. Please check your internet connection."
 
 
 def get_embedding(text: str) -> list[float]:
-    api_key = os.getenv("GEMINI_API_KEY")
+    api_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY")
     if not api_key:
         print("[EMBEDDING ERROR] GEMINI_API_KEY not configured.")
         return []
@@ -204,6 +230,7 @@ def get_embedding(text: str) -> list[float]:
         }
     }
     try:
+        import requests
         response = requests.post(url, json=payload, timeout=10)
         response.raise_for_status()
         data = response.json()
@@ -214,7 +241,6 @@ def get_embedding(text: str) -> list[float]:
 
 
 async def get_embedding_async(text: str) -> list[float]:
-    from config import settings
     api_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY")
     if not api_key:
         return []
@@ -226,7 +252,6 @@ async def get_embedding_async(text: str) -> list[float]:
         }
     }
     try:
-        import httpx
         async with httpx.AsyncClient() as client:
             response = await client.post(url, json=payload, timeout=10)
             response.raise_for_status()
