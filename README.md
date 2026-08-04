@@ -248,6 +248,4 @@ python backend/scratch/full_project_test.py
 
 ---
 
-## License
-
-This project is built for educational and demonstration purposes.
+By Gargi Sharma
