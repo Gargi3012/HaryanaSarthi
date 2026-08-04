@@ -22,9 +22,9 @@ def build_internship_text(item) -> str:
 
 def backfill_embeddings():
     db = SessionLocal()
-    api_key = os.getenv("GEMINI_API_KEY")
+    api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
-        print("[BACKFILL ERROR] GEMINI_API_KEY environment variable is not configured. Cannot generate embeddings.")
+        print("[BACKFILL ERROR] GROQ_API_KEY environment variable is not configured. Cannot generate embeddings.")
         return
 
     targets = [
