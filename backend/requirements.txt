@@ -7,4 +7,13 @@ python-multipart
 numpy
 scikit-learn
 requests
-python-dotenv
+python-dotenv
+passlib[bcrypt]
+pyjwt
+httpx
+redis
+psycopg2-binary
+asyncpg
+pydantic-settings
+google-genai
+aiosqlite

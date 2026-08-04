@@ -1,10 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
 
-# Load env variables before other imports
-load_dotenv(dotenv_path="../.env")
-
+from config import settings
 from database import Base, engine, SessionLocal
 from seed_data import create_dummy_users
 from services.dataset_loader import dataset_loader
@@ -13,6 +10,7 @@ from routers import auth, users, onboarding, opportunities, eligibility, stats, 
 
 app = FastAPI(title="HaryanaSarthi API")
 
+# Configure CORS using settings defaults or allow wildcard for API accessibility
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -21,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Synchronously ensure tables are created during startup
 Base.metadata.create_all(bind=engine)
 
 
