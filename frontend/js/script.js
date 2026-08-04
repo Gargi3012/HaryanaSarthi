@@ -411,7 +411,20 @@ function initStateMap() {
   const handleClick = (id) => {
     const { path, label } = getElementPairs(id);
     const districtName = getDistrictName(path || label);
-    alert(`Filtering opportunities for ${districtName}. (Connect to backend filter here)`);
+    
+    // Dynamically save clicked district as location preference
+    const onboarding = getOnboardingData();
+    onboarding.location_preference = districtName;
+    saveOnboardingData(onboarding);
+    
+    // Reload recommendations to reflect the selected district
+    loadRecommendedOpportunities();
+    
+    // Update the section header visually
+    const head = document.querySelector(".section-head h2");
+    if (head) {
+      head.innerHTML = `Recommended Opportunities in <span style="color: #16a34a;">${districtName}</span>`;
+    }
   };
 
   // Attach to path
@@ -1013,6 +1026,11 @@ function createChatbotUI() {
     <div id="hsChatMessages">
       <div class="hs-msg bot">Hi! Ask me anything.</div>
     </div>
+    <div id="hsChatSuggestions" style="padding: 6px 12px; display: flex; gap: 6px; overflow-x: auto; background: #f1f5f9; border-top: 1px solid #e5e7eb;">
+      <span class="hs-suggestion" style="font-size: 11px; padding: 4px 8px; background: white; border: 1px solid #cbd5e1; border-radius: 99px; cursor: pointer; white-space: nowrap; color: #334155; font-weight: 500;">🔍 Check Eligibility</span>
+      <span class="hs-suggestion" style="font-size: 11px; padding: 4px 8px; background: white; border: 1px solid #cbd5e1; border-radius: 99px; cursor: pointer; white-space: nowrap; color: #334155; font-weight: 500;">🎓 Search Scholarships</span>
+      <span class="hs-suggestion" style="font-size: 11px; padding: 4px 8px; background: white; border: 1px solid #cbd5e1; border-radius: 99px; cursor: pointer; white-space: nowrap; color: #334155; font-weight: 500;">🌾 Farmer Support</span>
+    </div>
     <div id="hsChatInputWrap">
       <input id="hsChatInput" type="text" placeholder="${modePlaceholder(mode)}" />
       <button id="hsChatSend" type="button">Send</button>
@@ -1116,6 +1134,14 @@ function createChatbotUI() {
   const sendBtn = panel.querySelector("#hsChatSend");
   const input = panel.querySelector("#hsChatInput");
 
+  panel.querySelectorAll(".hs-suggestion").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      // Extract suggestion text and trigger message send
+      input.value = chip.textContent.trim();
+      sendMessage();
+    });
+  });
+
   async function sendMessage() {
     const message = input.value.trim();
     if (!message) return;
@@ -1182,10 +1208,56 @@ function initNavbarAuth() {
   }
 }
 
+function initThemeToggle() {
+  const activeTheme = localStorage.getItem("theme");
+  if (activeTheme === "dark") {
+    document.body.classList.add("dark-theme");
+  }
+
+  const navRight = document.querySelector(".nav-right");
+  if (!navRight) return;
+
+  if (document.getElementById("themeToggleBtn")) return;
+
+  const toggleBtn = document.createElement("button");
+  toggleBtn.id = "themeToggleBtn";
+  toggleBtn.type = "button";
+  toggleBtn.innerHTML = activeTheme === "dark" ? "☀️ Light" : "🌙 Dark";
+
+  Object.assign(toggleBtn.style, {
+    background: "transparent",
+    border: "1px solid var(--border-color)",
+    color: "var(--text-main)",
+    padding: "8px 12px",
+    borderRadius: "var(--radius-sm)",
+    cursor: "pointer",
+    fontWeight: "600",
+    fontSize: "13px",
+    marginRight: "10px",
+    display: "flex",
+    alignItems: "center",
+    gap: "4px"
+  });
+
+  navRight.insertBefore(toggleBtn, navRight.firstChild);
+
+  toggleBtn.addEventListener("click", () => {
+    const isDark = document.body.classList.toggle("dark-theme");
+    if (isDark) {
+      localStorage.setItem("theme", "dark");
+      toggleBtn.innerHTML = "☀️ Light";
+    } else {
+      localStorage.setItem("theme", "light");
+      toggleBtn.innerHTML = "🌙 Dark";
+    }
+  });
+}
+
 /* ---------------- init ---------------- */
 
 document.addEventListener("DOMContentLoaded", () => {
   initNavbarAuth();
+  initThemeToggle();
   
   const startBtn = document.getElementById("startBtn");
   if (startBtn) startBtn.addEventListener("click", startOnboarding);
