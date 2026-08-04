@@ -1,8 +1,10 @@
 import os
 import sys
+from dotenv import load_dotenv
 
-# Ensure backend directory is in the path
+# Ensure backend directory is in the path and load environment variables
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+load_dotenv()
 
 from database import SessionLocal
 from models import College, Scholarship, Scheme, Internship
