@@ -33,6 +33,7 @@ function setUserData(data) {
   if (data.user_id) localStorage.setItem("user_id", data.user_id);
   if (data.name) localStorage.setItem("user_name", data.name);
   if (data.category) localStorage.setItem("user_category", data.category);
+  if (data.access_token) localStorage.setItem("access_token", data.access_token);
 }
 
 function getOnboardingData() {
@@ -48,12 +49,18 @@ function saveOnboardingData(data) {
 }
 
 async function apiRequest(url, options = {}) {
+  const token = localStorage.getItem("access_token");
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
   const response = await fetch(`${API_BASE}${url}`, {
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {})
-    },
-    ...options
+    ...options,
+    headers: headers
   });
 
   let data = {};
