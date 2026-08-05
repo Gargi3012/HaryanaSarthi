@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import and_, or_
 from models import College, JobExam, Internship, Scholarship, Scheme, User
-from services.gemini_service import get_embedding_async
+from services.llm_service import get_embedding_async
 from services.ml_recommender import search_opportunities_vector
 
 def _status(score):

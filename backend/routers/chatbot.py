@@ -6,7 +6,7 @@ from sqlalchemy.future import select
 from database import get_async_db
 from models import User
 from schemas import ChatRequest, ChatResponse, DocumentAnalysisRequest
-from services.gemini_service import ask_llm, analyze_document_async
+from services.llm_service import ask_llm, analyze_document_async
 from services.redis_service import redis_service
 
 router = APIRouter(prefix="/chatbot", tags=["chatbot"])

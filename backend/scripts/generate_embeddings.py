@@ -8,7 +8,7 @@ load_dotenv()
 
 from database import SessionLocal, Base, engine
 from models import College, Scholarship, Scheme, Internship
-from services.gemini_service import get_embedding
+from services.llm_service import get_embedding
 from services.dataset_loader import dataset_loader
 
 def build_college_text(item) -> str:

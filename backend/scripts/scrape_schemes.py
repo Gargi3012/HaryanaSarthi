@@ -10,7 +10,7 @@ load_dotenv()
 
 from database import SessionLocal, Base, engine
 from models import Scheme
-from services.gemini_service import get_embedding
+from services.llm_service import get_embedding
 
 
 def scrape_and_load_schemes():

@@ -530,7 +530,7 @@ function initNextBestActionAI() {
       target.textContent = "Analyzing...";
       resultDiv.style.display = "block";
       resultDiv.style.color = "#334155";
-      resultDiv.innerHTML = "Processing document with Gemini AI...";
+      resultDiv.innerHTML = "Processing document with Groq AI...";
 
       try {
         const payload = {
@@ -1019,7 +1019,10 @@ function createChatbotUI() {
     <div id="hsChatHeader">
       <div>
         <strong>${modeTitle(mode)}</strong>
-        <div style="font-size:12px; opacity:0.8;">Gemini-powered</div>
+        <div style="font-size:11px; opacity:0.85; display:flex; align-items:center; gap:6px; margin-top:2px;">
+          <span id="hsChatProviderBadge" style="background:rgba(255,255,255,0.18); border-radius:99px; padding:1px 7px; font-weight:600;">⚡ Groq AI</span>
+          <button id="hsSwitchProvider" type="button" style="background:transparent; border:1px solid rgba(255,255,255,0.4); border-radius:99px; color:white; font-size:10px; padding:1px 7px; cursor:pointer; font-weight:500;">Switch</button>
+        </div>
       </div>
       <button id="hsChatClose" type="button">×</button>
     </div>
@@ -1131,6 +1134,50 @@ function createChatbotUI() {
     panel.style.display = "none";
   });
 
+  // --- Provider toggle: Groq AI ↔ Quick FAQ ---
+  let currentProvider = "groq"; // "groq" | "faq"
+  const badge = panel.querySelector("#hsChatProviderBadge");
+  const switchBtn = panel.querySelector("#hsSwitchProvider");
+
+  switchBtn.addEventListener("click", () => {
+    if (currentProvider === "groq") {
+      currentProvider = "faq";
+      badge.textContent = "💬 Quick FAQ";
+      badge.style.background = "rgba(255,255,255,0.18)";
+      switchBtn.textContent = "Use Groq AI";
+      panel.querySelector("#hsChatInput").placeholder = "Type a keyword (e.g. scholarship, job, eligibility)...";
+      const messages = panel.querySelector("#hsChatMessages");
+      messages.insertAdjacentHTML("beforeend", `<div class="hs-msg bot" style="border-left:3px solid #fbbf24; padding-left:8px;">Switched to <strong>Quick FAQ mode</strong> — instant offline answers. No internet needed!</div>`);
+      messages.scrollTop = messages.scrollHeight;
+    } else {
+      currentProvider = "groq";
+      badge.textContent = "⚡ Groq AI";
+      switchBtn.textContent = "Switch";
+      panel.querySelector("#hsChatInput").placeholder = modePlaceholder(mode);
+      const messages = panel.querySelector("#hsChatMessages");
+      messages.insertAdjacentHTML("beforeend", `<div class="hs-msg bot" style="border-left:3px solid #4ade80; padding-left:8px;">Switched to <strong>Groq AI (Llama 3.3)</strong> — full AI responses.</div>`);
+      messages.scrollTop = messages.scrollHeight;
+    }
+  });
+
+  // Offline FAQ answers for Quick FAQ mode
+  function getFaqAnswer(msg) {
+    const m = msg.toLowerCase();
+    if (m.includes("scholarship")) return "🎓 HaryanaSarthi has 1,652+ scholarships. Go to Opportunities → Scholarships and use 'Check Eligibility' to filter ones matching your profile.";
+    if (m.includes("job") || m.includes("naukri")) return "💼 Explore 50,000+ job exam listings under Opportunities → Jobs & Exams. Filter by your qualification.";
+    if (m.includes("college") || m.includes("admission")) return "🏫 Browse 100+ colleges on HaryanaSarthi. Use the Eligibility Checker under each college listing for your match.";
+    if (m.includes("internship")) return "📋 1,000+ internship listings are available. Go to Opportunities → Internships and filter by sector and mode.";
+    if (m.includes("scheme") || m.includes("yojana")) return "🏛️ 115+ government schemes available. Check Opportunities → Schemes for farmer, women, student & senior citizen support.";
+    if (m.includes("eligib")) return "✅ Use the 'Check Eligibility' button on any opportunity card to instantly check if you qualify based on your profile.";
+    if (m.includes("login") || m.includes("account")) return "🔑 Click 'Login / Register' on the top navbar. Use your User ID and password to sign in.";
+    if (m.includes("document") || m.includes("upload")) return "📄 Open any opportunity → click 'Analyze My Documents' to upload your Aadhar, marksheet, or certificate for AI analysis.";
+    if (m.includes("haryana") || m.includes("sarthi")) return "🌱 HaryanaSarthi is a government opportunity discovery platform for Haryana — connecting citizens to scholarships, jobs, colleges, internships & schemes.";
+    if (m.includes("farmer") || m.includes("kisan")) return "🌾 Explore farmer schemes under Opportunities → Schemes. Filter by occupation 'Farmer' for PM-Kisan, crop insurance, and more.";
+    if (m.includes("women") || m.includes("mahila")) return "👩 Women-specific scholarships and schemes are available. Filter by Gender = Female in the Eligibility Checker.";
+    if (m.includes("hello") || m.includes("hi") || m.includes("namaste")) return "🙏 Namaste! Main Quick FAQ mode mein hoon. Aap scholarship, job, college, internship, ya scheme ke baare mein pooch sakte hain!";
+    return "ℹ️ Quick FAQ mein yeh answer nahi mila. Groq AI pe switch karke poori AI se baat karein — woh zyada detail dega!";
+  }
+
   const sendBtn = panel.querySelector("#hsChatSend");
   const input = panel.querySelector("#hsChatInput");
 
@@ -1151,6 +1198,15 @@ function createChatbotUI() {
     messages.scrollTop = messages.scrollHeight;
     input.value = "";
 
+    // Quick FAQ mode — instant offline response
+    if (currentProvider === "faq") {
+      const answer = getFaqAnswer(message);
+      messages.insertAdjacentHTML("beforeend", `<div class="hs-msg bot">${answer}</div>`);
+      messages.scrollTop = messages.scrollHeight;
+      return;
+    }
+
+    // Groq AI mode — API call
     messages.insertAdjacentHTML("beforeend", `<div class="hs-msg bot" id="hsTyping">Thinking...</div>`);
     messages.scrollTop = messages.scrollHeight;
 
@@ -1177,7 +1233,7 @@ function createChatbotUI() {
 
       messages.insertAdjacentHTML(
         "beforeend",
-        `<div class="hs-msg bot">Unable to connect to chatbot right now.</div>`
+        `<div class="hs-msg bot">Unable to connect to Groq AI right now. Try switching to <strong>Quick FAQ</strong> mode using the Switch button above!</div>`
       );
       messages.scrollTop = messages.scrollHeight;
     }
@@ -1188,6 +1244,7 @@ function createChatbotUI() {
     if (e.key === "Enter") sendMessage();
   });
 }
+
 
 function initChatbot() {
   createChatbotUI();

@@ -1,6 +1,8 @@
 # Environments
 .env
-.env.*
+.env.local
+.env.production
+!.env.example
 
 # Python Virtual Environments
 .venv/
