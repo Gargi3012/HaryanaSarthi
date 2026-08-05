@@ -2,7 +2,7 @@
 
 **AI-powered portal to discover government opportunities — Schemes, Scholarships, Jobs, Exams, Internships & Colleges — personalized to your profile.**
 
-***LIVE LINK : https://haryanasarthi.onrender.com
+***LIVE LINK : https://haryanasarthi.onrender.com***
 
 > Built for Haryana citizens. Powered by Groq LLM, Neon PostgreSQL, and Vector Similarity Search.
 
