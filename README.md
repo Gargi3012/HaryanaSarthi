@@ -4,7 +4,7 @@
 
 ***LIVE LINK : https://haryanasarthi.onrender.com***
 
-> Built for Haryana citizens. Powered by Groq LLM, Neon PostgreSQL, and Vector Similarity Search.
+> Built for Haryana citizens. Powered by Groq LLM, Neon PostgreSQL, Qdrant Vector Database, and Vector Similarity Search.
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
 [![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=flat&logo=python)](https://python.org)
@@ -101,6 +101,7 @@ flowchart TD
 |---|---|
 | Backend | Python 3.13, FastAPI, SQLAlchemy 2.x (async) |
 | Database | Neon PostgreSQL (asyncpg driver, SSL) |
+| Vector Database | Qdrant Cloud (with local file-based storage fallback) |
 | AI / LLM | Groq API — `llama-3.3-70b` (chat), `llama-3.2-vision` (docs) |
 | Embeddings | HuggingFace Inference API → local hash fallback |
 | Auth | JWT (HS256) + bcrypt (native, no passlib) |
@@ -152,6 +153,7 @@ HaryanaSarthi/
 │   │   ├── auth_service.py           # bcrypt hashing + JWT creation
 │   │   ├── gemini_service.py         # Groq LLM, Vision, Embeddings
 │   │   ├── redis_service.py          # Rate limiting (Redis + fallback)
+│   │   ├── qdrant_service.py         # Qdrant connection and vector operations
 │   │   ├── ml_recommender.py         # Cosine similarity vector search
 │   │   ├── opportunity_service.py    # Recommendation orchestration
 │   │   ├── eligibility_service.py    # SQL + vector hybrid filtering
@@ -202,6 +204,8 @@ DATABASE_URL=postgresql://<user>:<password>@<host>/neondb?sslmode=require
 GROQ_API_KEY=gsk_...
 JWT_SECRET_KEY=<64-character random hex string>
 REDIS_URL=                    # optional — leave blank to use in-memory fallback
+QDRANT_URL=                   # optional — Qdrant Cloud endpoint URL (falls back to local qdrant_db if blank)
+QDRANT_API_KEY=              # optional — Qdrant Cloud API key
 ```
 
 ### 5. Start the Server
