@@ -1,0 +1,38 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: Build & Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r backend/requirements.txt
+
+    - name: Run Verification Test Suite
+      env:
+        DATABASE_URL: "sqlite:///./test_haryanasarthi.db"
+        GROQ_API_KEY: "gsk_mock_key_for_ci_pipeline_testing_only"
+        JWT_SECRET_KEY: "32b2bb962a5b6fcdbf494a8bc3e32b6e51f8ad155ad1bfbdbe297d028b1bb7a1"
+        REDIS_URL: ""
+        QDRANT_URL: ""
+        QDRANT_API_KEY: ""
+      run: |
+        python backend/scratch/test_endpoints.py

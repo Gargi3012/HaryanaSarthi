@@ -22,7 +22,7 @@ class QdrantService:
         try:
             if url:
                 print(f"[QDRANT] Connecting to Cloud Qdrant endpoint: {url}")
-                self.client = QdrantClient(url=url, api_key=api_key)
+                self.client = QdrantClient(url=url, api_key=api_key, timeout=30.0)
             else:
                 # Ensure local data path exists
                 local_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
