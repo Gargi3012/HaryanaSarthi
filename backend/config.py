@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     REDIS_URL: Optional[str] = None
     GEMINI_API_KEY: Optional[str] = None
     GROQ_API_KEY: Optional[str] = None
+    QDRANT_URL: Optional[str] = None
+    QDRANT_API_KEY: Optional[str] = None
     JWT_SECRET_KEY: str = "32b2bb962a5b6fcdbf494a8bc3e32b6e51f8ad155ad1bfbdbe297d028b1bb7a1"
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440  # 24 hours

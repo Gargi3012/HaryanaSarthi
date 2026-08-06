@@ -10,6 +10,7 @@ from database import SessionLocal, Base, engine
 from models import College, Scholarship, Scheme, Internship
 from services.llm_service import get_embedding
 from services.dataset_loader import dataset_loader
+from services.qdrant_service import qdrant_service
 
 def build_college_text(item) -> str:
     return f"College: {item.college_name}. Location: {item.location}. University: {item.affiliated_university}. Courses: {item.courses_offered}. Eligibility: min percentage required {item.min_percentage_required}%. Study mode: {item.mode_of_study}. Hostel: {item.hostel_facilities}."
@@ -48,26 +49,60 @@ def backfill_embeddings():
 
     try:
         for model_class, text_builder, name in targets:
-            # Query all items that don't have embeddings populated yet
-            items = db.query(model_class).filter(model_class.embedding == None).all()
-            if not items:
-                print(f"[BACKFILL] All {name} already have vector embeddings.")
-                continue
-
-            print(f"[BACKFILL] Found {len(items)} {name} without embeddings. Backfilling now...")
-            count = 0
+            collection_name = model_class.__tablename__
+            
+            # Query all items to ensure Qdrant has all vectors
+            items = db.query(model_class).all()
+            print(f"[BACKFILL] Processing {len(items)} items in {name}...")
+            
+            count_new = 0
+            count_qdrant = 0
+            batch_items = []
+            
             for item in items:
-                text_blob = text_builder(item)
-                vector = get_embedding(text_blob)
+                vector = item.embedding
+                
+                # If embedding doesn't exist in SQL, generate it
+                if not vector:
+                    text_blob = text_builder(item)
+                    vector = get_embedding(text_blob)
+                    if vector:
+                        item.embedding = vector
+                        count_new += 1
+                        
+                # Upsert to Qdrant if we have a vector
                 if vector:
-                    item.embedding = vector
-                    count += 1
-                    # Commit in batches of 20
-                    if count % 20 == 0:
-                        db.commit()
-                        print(f"[BACKFILL] Processed {count}/{len(items)} {name}...")
+                    import json
+                    if isinstance(vector, str):
+                        try:
+                            vector = json.loads(vector)
+                        except Exception:
+                            pass
+                    
+                    payload = {
+                        "name": getattr(item, "college_name", None) or getattr(item, "scholarship_name", None) or getattr(item, "scheme_name", None) or getattr(item, "sector", None)
+                    }
+                    batch_items.append({
+                        "id": item.id,
+                        "vector": vector,
+                        "payload": payload
+                    })
+                    count_qdrant += 1
+                
+                # Upload to Qdrant in batches of 100
+                if len(batch_items) >= 100:
+                    qdrant_service.upsert_opportunity_batch(collection_name, batch_items)
+                    batch_items = []
+                
+                if count_new > 0 and count_new % 50 == 0:
+                    db.commit()
+            
+            # Upsert any remaining items in the batch
+            if batch_items:
+                qdrant_service.upsert_opportunity_batch(collection_name, batch_items)
+                    
             db.commit()
-            print(f"[BACKFILL] Completed backfill for {count} {name}.")
+            print(f"[BACKFILL] Completed {name}: generated {count_new} new embeddings, upserted {count_qdrant} to Qdrant.")
     except Exception as e:
         print(f"[BACKFILL ERROR] An unexpected error occurred: {e}")
     finally:

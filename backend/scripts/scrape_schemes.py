@@ -11,6 +11,7 @@ load_dotenv()
 from database import SessionLocal, Base, engine
 from models import Scheme
 from services.llm_service import get_embedding
+from services.qdrant_service import qdrant_service
 
 
 def scrape_and_load_schemes():
@@ -113,6 +114,12 @@ def scrape_and_load_schemes():
                 embedding=vector
             )
             db.add(scheme_obj)
+            db.flush()  # Populates scheme_obj.id
+            
+            if vector:
+                payload = {"name": data["scheme_name"]}
+                qdrant_service.upsert_opportunity("schemes", scheme_obj.id, vector, payload)
+                
             new_records += 1
 
     db.commit()

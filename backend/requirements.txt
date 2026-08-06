@@ -18,4 +18,5 @@ pydantic-settings
 google-genai
 aiosqlite
 pypdf
-beautifulsoup4
+beautifulsoup4
+qdrant-client
